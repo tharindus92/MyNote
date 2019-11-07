@@ -60,6 +60,7 @@
 
 ## Docker
 
+* [How To Install and Use Docker Compose on CentOS 7](docker/how-to-install-and-use-docker-compose-on-centos-7.md)
 * [Install on windows server 2019](docker/install-on-windows-server-2019.md)
 * [Docker Commands](docker/docker-commands.md)
 * [Insecure Registry to Docker Engine on windows server 2019](docker/insecure-registry-to-docker-engine-on-windows-server-2019.md)
@@ -78,6 +79,5 @@
 * [Server Installation and Configuration Guide](keycloak/server-installation-and-configuration-guide.md)
 * [Install Keycloak 4.8.3 on CentOS 7](keycloak/install-keycloak-4.8.3-on-centos-7.md)
 * [Setup Keycloak with SSL and MySQL backend](keycloak/setup-keycloak-with-ssl-and-mysql-backend.md)
-* [Untitled](keycloak/untitled.md)
 * [Untitled](keycloak/untitled-1.md)
 
