@@ -30,10 +30,7 @@ Check if Java is installed in the environment.
 If Java 8 JDK is already installed, the following message is displayed.
 
 ```text
-# java -version
-openjdk version "1.8.0_191"
-OpenJDK Runtime Environment (build 1.8.0_191-b12)
-OpenJDK 64-Bit Server VM (build 25.191-b12, mixed mode)
+# java -versionopenjdk version "1.8.0_191"OpenJDK Runtime Environment (build 1.8.0_191-b12)OpenJDK 64-Bit Server VM (build 25.191-b12, mixed mode)
 ```
 
 If Java 8 is not installed, install OpenJDK 8 using the following command.
@@ -52,9 +49,7 @@ Unzip the downloaded Keycloak compressed file.
 \* The file is `/opt`placed in the following location.
 
 ```text
-# cd / opt
-# unzip keycloak-4.8.3.Final.zip
-# mv keycloak-4.8.3.Final keycloak
+# cd / opt# unzip keycloak-4.8.3.Final.zip# mv keycloak-4.8.3.Final keycloak
 ```
 
 ### Firewall settings
@@ -62,10 +57,7 @@ Unzip the downloaded Keycloak compressed file.
 Configure the firewall so that Keycloak can be accessed from the outside.
 
 ```text
-# firewall-cmd --zone=public --add-service=http --permanent
-# firewall-cmd --zone=public --add-service=https --permanent
-# firewall-cmd --zone=public --add-port=8080/tcp --permanent
-# firewall-cmd --reload
+# firewall-cmd --zone=public --add-service=http --permanent# firewall-cmd --zone=public --add-service=https --permanent# firewall-cmd --zone=public --add-port=8080/tcp --permanent# firewall-cmd --reload
 ```
 
 ### Creating an administrator user
@@ -90,9 +82,7 @@ Keycloak comes with a Java EE container developed by RedHat called **WildFly** .
 If the following message is displayed after the command is executed, startup is successful.
 
 ```text
-05: 22: 25,628 INFO [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
-05: 22: 25,628 INFO [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
-05: 22: 25,628 INFO [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: Keycloak 4.8.3.Final (WildFly 
+05: 22: 25,628 INFO [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management05: 22: 25,628 INFO [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:999005: 22: 25,628 INFO [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: Keycloak 4.8.3.Final (WildFly 
 ```
 
 ### Log in to the management console
@@ -119,33 +109,11 @@ Set up Keycloak to start automatically when the server starts.
 `/etc/systemd/system/keycloak.service`The line 12 `-b option`is the same as above.
 
 ```text
-[Unit]
-Description = Jboss Application Server
-After = network.target
-
-[Service]
-Type = idle
-User = keycloak
-Group = keycloak
-ExecStart = /opt/keycloak/bin/standalone.sh -b=0.0.0.0
-TimeoutStartSec = 600
-TimeoutStopSec = 600
-
-[Install]
-WantedBy = multi-user.target
+[Unit]Description = Jboss Application ServerAfter = network.target[Service]Type = idleUser = keycloakGroup = keycloakExecStart = /opt/keycloak/bin/standalone.sh -b=0.0.0.0TimeoutStartSec = 600TimeoutStopSec = 600[Install]WantedBy = multi-user.target
 ```
 
 ```text
-# mkdir /var/log/keycloak
-# useradd --system --user-group keycloak
-# chown -R keycloak: keycloak /opt/keycloak
-# chown -R keycloak: keycloak /var/log/keycloak
-# chmod -R g+w /opt/keycloak
-# chmod -R g+w /var/log/keycloak
-
-# systemctl daemon-reload
-# systemctl enable keycloak
-# systemctl start keycloak
+# mkdir /var/log/keycloak# useradd --system --user-group keycloak# chown -R keycloak: keycloak /opt/keycloak# chown -R keycloak: keycloak /var/log/keycloak# chmod -R g+w /opt/keycloak# chmod -R g+w /var/log/keycloak# systemctl daemon-reload# systemctl enable keycloak# systemctl start keycloak
 ```
 
 

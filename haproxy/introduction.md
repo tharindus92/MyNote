@@ -34,16 +34,7 @@ A backend can contain one or many servers in it--generally speaking, adding more
 Here is an example of a two backend configuration, _web-backend_ and _blog-backend_ with two web servers in each, listening on port 80:
 
 ```text
-backend web-backend
-   balance roundrobin
-   server web1 web1.yourdomain.com:80 check
-   server web2 web2.yourdomain.com:80 check
-
-backend blog-backend
-   balance roundrobin
-   mode http
-   server blog1 blog1.yourdomain.com:80 check
-   server blog1 blog1.yourdomain.com:80 check
+backend web-backend   balance roundrobin   server web1 web1.yourdomain.com:80 check   server web2 web2.yourdomain.com:80 checkbackend blog-backend   balance roundrobin   mode http   server blog1 blog1.yourdomain.com:80 check   server blog1 blog1.yourdomain.com:80 check
 ```
 
 `balance roundrobin` line specifies the load balancing algorithm, which is detailed in the [Load Balancing Algorithms](https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts#load-balancing-algorithms) section.
@@ -65,19 +56,13 @@ A frontend can be configured to various types of network traffic, as explained i
 The syntax is:
 
 ```bash
-frontend <frontend name>
-    bind <IPs or wild card>:80
-    acl <aclname> <criterion> [flags] [operator] [<value>] ...
-    use_backend <backend name> if <aclname>
+frontend <frontend name>    bind <IPs or wild card>:80    acl <aclname> <criterion> [flags] [operator] [<value>] ...    use_backend <backend name> if <aclname>
 ```
 
 Here's an example with all of the details filled in:
 
 ```text
-frontend myAppFrontEnd
-  bind *:80
-  acl acl_myApp path_sub myApp
-  use_backend myAppBackend if acl_myApp
+frontend myAppFrontEnd  bind *:80  acl acl_myApp path_sub myApp  use_backend myAppBackend if acl_myApp
 ```
 
 * **`myAppFrontEnd`**: Name of the frontend.
@@ -93,17 +78,7 @@ The frontend listens on _port 80_ to all the interfaces `*`  available in server
 If you’re using HAProxy Enterprise to get ahold of its advanced features, the configuration file can be found at **/etc/hapee-1.8/hapee-lb.cfg**. If you’re using the Community Edition, it’s at **/etc/haproxy/haproxy.cfg**. 
 
 ```text
-global
-    # global settings here
-
-defaults
-    # defaults here
-
-frontend
-    # a frontend that accepts requests from clients
-
-backend
-    # servers that fulfill the requests
+global    # global settings heredefaults    # defaults herefrontend    # a frontend that accepts requests from clientsbackend    # servers that fulfill the requests
 ```
 
 
@@ -116,11 +91,7 @@ Here’s a simple example of a `listen` used to serve up the [HAProxy Stats page
 
 
 ```text
-listen stats
-    bind *:8404
-    stats enable
-    stats uri /monitor
-    stats refresh 5s
+listen stats    bind *:8404    stats enable    stats uri /monitor    stats refresh 5s
 ```
 
 ### Statistics \(Optional\)
@@ -128,12 +99,7 @@ listen stats
 Add the optional stats node to the configuration:/etc/haproxy/haproxy.cfg
 
 ```text
-listen stats
-    bind :32700
-    stats enable
-    stats uri /
-    stats hide-version
-    stats auth someuser:password
+listen stats    bind :32700    stats enable    stats uri /    stats hide-version    stats auth someuser:password
 ```
 
 The HAProxy stats node will listen on port 32700 for connections and is configured to hide the version of HAProxy as well as to require a password login. Replace `password` with a more secure password. In addition, it is recommended to disable stats login in production.

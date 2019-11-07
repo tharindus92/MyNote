@@ -17,10 +17,7 @@ $ python -m pip install --upgrade pip
 If you cannot upgrade `pip` due to a system-owned installation, you can run the example in a virtualenv:
 
 ```text
-$ python -m pip install virtualenv
-$ virtualenv venv
-$ source venv/bin/activate
-$ python -m pip install --upgrade pip
+$ python -m pip install virtualenv$ virtualenv venv$ source venv/bin/activate$ python -m pip install --upgrade pip
 ```
 
 **Install gRPC**
@@ -64,10 +61,7 @@ $ python -m pip install grpcio-tools
 You’ll need a local copy of the example code to work through this quickstart. Download the example code from our GitHub repository \(the following command clones the entire repository, but you just need the examples for this quickstart and other tutorials\):
 
 ```text
-$ # Clone the repository to get the example code:
-$ git clone -b v1.21.0 https://github.com/grpc/grpc
-$ # Navigate to the "hello, world" Python example:
-$ cd grpc/examples/python/helloworld
+$ # Clone the repository to get the example code:$ git clone -b v1.21.0 https://github.com/grpc/grpc$ # Navigate to the "hello, world" Python example:$ cd grpc/examples/python/helloworld
 ```
 
 #### Run a gRPC application <a id="run-a-grpc-application"></a>
@@ -93,43 +87,13 @@ Congratulations! You’ve just run a client-server application with gRPC.
 Now let’s look at how to update the application with an extra method on the server for the client to call. Our gRPC service is defined using protocol buffers; you can find out lots more about how to define a service in a `.proto` file in [What is gRPC?](https://grpc.io/docs/guides/) and [gRPC Basics: Python](https://grpc.io/docs/tutorials/basic/python/). For now all you need to know is that both the server and the client “stub” have a `SayHello` RPC method that takes a `HelloRequest` parameter from the client and returns a`HelloReply` from the server, and that this method is defined like this:
 
 ```text
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-}
-
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
-}
+// The greeting service definition.service Greeter {  // Sends a greeting  rpc SayHello (HelloRequest) returns (HelloReply) {}}// The request message containing the user's name.message HelloRequest {  string name = 1;}// The response message containing the greetingsmessage HelloReply {  string message = 1;}
 ```
 
 Let’s update this so that the `Greeter` service has two methods. Edit `examples/protos/helloworld.proto` and update it with a new `SayHelloAgain` method, with the same request and response types:
 
 ```text
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-  // Sends another greeting
-  rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
-}
-
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
-}
+// The greeting service definition.service Greeter {  // Sends a greeting  rpc SayHello (HelloRequest) returns (HelloReply) {}  // Sends another greeting  rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}}// The request message containing the user's name.message HelloRequest {  string name = 1;}// The response message containing the greetingsmessage HelloReply {  string message = 1;}
 ```
 
 \(Don’t forget to save the file!\)
@@ -155,14 +119,7 @@ We now have new generated server and client code, but we still need to implement
 In the same directory, open `greeter_server.py`. Implement the new method like this:
 
 ```text
-class Greeter(helloworld_pb2_grpc.GreeterServicer):
-
-  def SayHello(self, request, context):
-    return helloworld_pb2.HelloReply(message='Hello, %s!' % request.name)
-
-  def SayHelloAgain(self, request, context):
-    return helloworld_pb2.HelloReply(message='Hello again, %s!' % request.name)
-...
+class Greeter(helloworld_pb2_grpc.GreeterServicer):  def SayHello(self, request, context):    return helloworld_pb2.HelloReply(message='Hello, %s!' % request.name)  def SayHelloAgain(self, request, context):    return helloworld_pb2.HelloReply(message='Hello again, %s!' % request.name)...
 ```
 
 **Update the client**
@@ -170,13 +127,7 @@ class Greeter(helloworld_pb2_grpc.GreeterServicer):
 In the same directory, open `greeter_client.py`. Call the new method like this:
 
 ```text
-def run():
-  channel = grpc.insecure_channel('localhost:50051')
-  stub = helloworld_pb2_grpc.GreeterStub(channel)
-  response = stub.SayHello(helloworld_pb2.HelloRequest(name='you'))
-  print("Greeter client received: " + response.message)
-  response = stub.SayHelloAgain(helloworld_pb2.HelloRequest(name='you'))
-  print("Greeter client received: " + response.message)
+def run():  channel = grpc.insecure_channel('localhost:50051')  stub = helloworld_pb2_grpc.GreeterStub(channel)  response = stub.SayHello(helloworld_pb2.HelloRequest(name='you'))  print("Greeter client received: " + response.message)  response = stub.SayHelloAgain(helloworld_pb2.HelloRequest(name='you'))  print("Greeter client received: " + response.message)
 ```
 
 **Run!**

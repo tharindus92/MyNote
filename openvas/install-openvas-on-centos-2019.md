@@ -44,17 +44,7 @@ nasl_no_signature_check = no
 Restart the services:
 
 ```text
-systemctl enable redis
-systemctl enable gsad
-systemctl enable gvmd 
-systemctl enable openvas-manager 
-systemctl enable openvas-scanner
-
-systemctl restart redis
-systemctl restart gsad
-systemctl restart gvmd
-systemctl restart openvas-manager
-systemctl restart openvas-scanner
+systemctl enable redissystemctl enable gsadsystemctl enable gvmd systemctl enable openvas-manager systemctl enable openvas-scannersystemctl restart redissystemctl restart gsadsystemctl restart gvmdsystemctl restart openvas-managersystemctl restart openvas-scanner
 ```
 
 Open your web browser and navigate to the following address and login with the username and password you’ve previously set:

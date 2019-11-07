@@ -19,6 +19,7 @@
 
 * [Gitlab Config](jenkins-gitlab-webhook/untitled.md)
 * [Jenkins Config](jenkins-gitlab-webhook/jenkins-config.md)
+* [Jenkins windows slave service does not interact with desktop](jenkins-gitlab-webhook/jenkins-windows-slave-service-does-not-interact-with-desktop.md)
 
 ## Jenkins Pipeline
 

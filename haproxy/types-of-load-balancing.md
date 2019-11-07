@@ -35,14 +35,7 @@ In this example, if a user requests _yourdomain.com/blog_, they are forwarded to
 A snippet of the example frontend configuration would look like this:
 
 ```text
-frontend http
-  bind *:80
-  mode http
-
-  acl url_blog path_beg /blog
-  use_backend blog-backend if url_blog
-
-  default_backend web-backend
+frontend http  bind *:80  mode http  acl url_blog path_beg /blog  use_backend blog-backend if url_blog  default_backend web-backend
 ```
 
 This configures a frontend named _http_, which handles all incoming traffic on port 80.
