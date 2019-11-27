@@ -46,7 +46,6 @@
 * [Types of Load Balancing](haproxy/types-of-load-balancing.md)
 * [Load Balancing Algorithms](haproxy/load-balancing-algorithms.md)
 * [Example](haproxy/example.md)
-* [Untitled](haproxy/untitled.md)
 
 ## Python 3
 
@@ -80,4 +79,8 @@
 * [Install Keycloak 4.8.3 on CentOS 7](keycloak/install-keycloak-4.8.3-on-centos-7.md)
 * [Setup Keycloak with SSL and MySQL backend](keycloak/setup-keycloak-with-ssl-and-mysql-backend.md)
 * [Untitled](keycloak/untitled-1.md)
+
+## Remote Command
+
+* [psexec](remote-command/psexec.md)
 

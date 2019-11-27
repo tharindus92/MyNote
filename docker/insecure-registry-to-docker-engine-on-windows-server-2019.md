@@ -43,13 +43,17 @@ By default, docker uses **https** to connect to docker registry. But there can b
 For Ubuntu Xenial, edit _/etc/docker/daemon.json_ and update the key “insecure-registries”. e.g.
 
 ```text
-{ "insecure-registries" : ["myregistry.local:5000"] }
+{
+ "insecure-registries" : ["myregistry.local:5000"]
+ }
 ```
 
 For CentOS 7, edit the file _/etc/docker/daemon.json_, e.g.
 
 ```text
-{ "insecure-registries" : ["myregistry.local:5000"] }
+{
+ "insecure-registries" : ["myregistry.local:5000"]
+ }
 ```
 
 For Ubuntu trusty, edit the file _/etc/default/docker_ and update _DOCKER\_OPTS_, e.g
@@ -67,6 +71,9 @@ Then restart Docker engine
 {% embed url="https://docs.docker.com/registry/insecure/" %}
 
 ```text
-{  "insecure-registries" : ["10.101.15.111:5000"],  "allow-nondistributable-artifacts" : ["10.101.15.111:5000"]}
+{
+  "insecure-registries" : ["10.101.15.111:5000"],
+  "allow-nondistributable-artifacts" : ["10.101.15.111:5000"]
+}
 ```
 

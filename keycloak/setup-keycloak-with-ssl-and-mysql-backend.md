@@ -12,7 +12,25 @@ Simply, download Keycloak from the [Keycloak site](http://www.keycloak.org/downl
 Download and place mysql java connector to this location.
 
 ```text
-cd /opt/keycloak-1.9.8.Final/modules/system/layers/keycloak/com/ mkdir -p mysql/main/ ls -ltrh total 984K -rw-r--r-- 1 ubuntu ubuntu 977K Sep 14 13:08 mysql-connector-java-5.1.44-bin.jar -rw-r--r-- 1 ubuntu ubuntu 282 Sep 14 13:12 module.xml # cat module.xml <?xml version="1.0" ?> <module xmlns="urn:jboss:module:1.3" name="com.mysql"> 	<resources> 		<resource-root path="mysql-connector-java-5.1.44-bin.jar" /> 	</resources> 	<dependencies> 		<module name="javax.api"/> <module name="javax.transaction.api"/> 	</dependencies>  </module>
+cd /opt/keycloak-1.9.8.Final/modules/system/layers/keycloak/com/ 
+
+mkdir -p mysql/main/
+ 
+ls -ltrh 
+total 984K 
+-rw-r--r-- 1 ubuntu ubuntu 977K Sep 14 13:08 mysql-connector-java-5.1.44-bin.jar 
+-rw-r--r-- 1 ubuntu ubuntu 282 Sep 14 13:12 module.xml 
+
+# cat module.xml
+ <?xml version="1.0" ?>
+ <module xmlns="urn:jboss:module:1.3" name="com.mysql"> 
+	<resources> 
+		<resource-root path="mysql-connector-java-5.1.44-bin.jar" /> 
+	</resources> 
+	<dependencies> 
+		<module name="javax.api"/> <module name="javax.transaction.api"/> 
+	</dependencies> 
+ </module>
 ```
 
 #### Keycloak schema and User
@@ -83,13 +101,15 @@ $ yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-1.noarc
 This will install the MySQL repository with the MySQL 8.0 repository enabled by default. Because Keycloak doesn't support MySQL 8.0 yet, disable the MySQL 8.0 repository and enable the MySQL 5.7 repository.
 
 ```text
-$ yum-config-manager --disable mysql80-community$ yum-config-manager --enable mysql57-community
+$ yum-config-manager --disable mysql80-community
+$ yum-config-manager --enable mysql57-community
 ```
 
 Install and start the MySQL server.
 
 ```text
-$ yum install mysql-server$ systemctl start mysqld
+$ yum install mysql-server
+$ systemctl start mysqld
 ```
 
 The MySQL server generates a temporary password which can be found in the log file located in the _/var/log_ directory. Change this temporary password to something else before proceeding.
@@ -101,13 +121,23 @@ $ mysqladmin -p password
 Save the MySQL credentials in the home directory of the root user.
 
 ```text
-$ cat > /root/.my.cnf <<EOF[client]user=rootpassword="YOURPASS"EOF
+$ cat > /root/.my.cnf <<EOF
+[client]
+user=root
+password="YOURPASS"
+EOF
 ```
 
 Create a database and user account for Keycloak \(change YOURPASS to your something random\).
 
 ```text
-$ mysql mysql$ CREATE DATABASE keycloak;mysql$ CREATE USER 'keycloak'@'localhost' IDENTIFIED BY 'YOURPASS';mysql$ GRANT ALL PRIVILEGES ON keycloak.* TO 'keycloak'@'localhost';mysql$ FLUSH PRIVILEGES;mysql$ exit;
+$ mysql
+ 
+mysql$ CREATE DATABASE keycloak;
+mysql$ CREATE USER 'keycloak'@'localhost' IDENTIFIED BY 'YOURPASS';
+mysql$ GRANT ALL PRIVILEGES ON keycloak.* TO 'keycloak'@'localhost';
+mysql$ FLUSH PRIVILEGES;
+mysql$ exit;
 ```
 
 Configure Keycloak to use MySQL. Download the MySQL connector for Java.
@@ -119,7 +149,10 @@ $ curl -L http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.46/mysq
 Open the Jboss CLI and add the MySQL module \(you don't have to connect with the Jboss websocket\).
 
 ```text
-$ ./bin/jboss-cli.sh jboss-cli$ module add --name=org.mysql  --dependencies=javax.api,javax.transaction.api --resources=/root/mysql-connector-java-5.1.46.jarjboss-cli$ exit
+$ ./bin/jboss-cli.sh
+ 
+jboss-cli$ module add --name=org.mysql  --dependencies=javax.api,javax.transaction.api --resources=/root/mysql-connector-java-5.1.46.jar
+jboss-cli$ exit
 ```
 
 Add the MySQL driver to the configuration.
@@ -131,31 +164,54 @@ $ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=datasources/jdbc-
 Remove the h2 KeycloakDS data source and add the MySQL KeycloakDS data source. \(Don't delete the test database and change YOURPASS to something random\)
 
 ```text
-$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=datasources/data-source=KeycloakDS:remove'$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=datasources/data-source=KeycloakDS:add(driver-name=org.mysql,enabled=true,use-java-context=true,connection-url="jdbc:mysql://localhost:3306/keycloak?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Amsterdam&amp;characterEncoding=UTF-8",jndi-name="java:/jboss/datasources/KeycloakDS",user-name=keycloak,password="YOURPASS",valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker,validate-on-match=true,exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker)'
+$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=datasources/data-source=KeycloakDS:remove'
+$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=datasources/data-source=KeycloakDS:add(driver-name=org.mysql,enabled=true,use-java-context=true,connection-url="jdbc:mysql://localhost:3306/keycloak?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Amsterdam&amp;characterEncoding=UTF-8",jndi-name="java:/jboss/datasources/KeycloakDS",user-name=keycloak,password="YOURPASS",valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker,validate-on-match=true,exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker)'
 ```
 
 Add management user to keycloak \(change YOURPASS to your something random\).
 
 ```text
-$ sudo -u keycloak ./bin/add-user-keycloak.sh -u admin -p YOURPASS -r master # output: Added 'admin' to '/opt/keycloak/4.5.0/standalone/configuration/keycloak-add-user.json', restart server to load user
+$ sudo -u keycloak ./bin/add-user-keycloak.sh -u admin -p YOURPASS -r master
+ 
+# output: Added 'admin' to '/opt/keycloak/4.5.0/standalone/configuration/keycloak-add-user.json', restart server to load user
 ```
 
 We're going to run Keycloak behind a Nginx reverse proxy. To allow this, change http-listener and socket-binding configurations in Keycloak.
 
 ```text
-$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)'$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/socket-binding-group=standard-sockets/socket-binding=proxy-https:add(port=443)'$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=redirect-socket,value=proxy-https)'
+$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)'
+$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/socket-binding-group=standard-sockets/socket-binding=proxy-https:add(port=443)'
+$ sudo -u keycloak ./bin/jboss-cli.sh 'embed-server,/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=redirect-socket,value=proxy-https)'
 ```
 
 Create a systemd configuration to start and stop keycloak using systemd.
 
 ```text
-cat > /etc/systemd/system/keycloak.service <<EOF [Unit]Description=KeycloakAfter=network.target [Service]Type=idleUser=keycloakGroup=keycloakExecStart=/opt/keycloak/current/bin/standalone.sh -b 0.0.0.0TimeoutStartSec=600TimeoutStopSec=600 [Install]WantedBy=multi-user.targetEOF
+cat > /etc/systemd/system/keycloak.service <<EOF
+ 
+[Unit]
+Description=Keycloak
+After=network.target
+ 
+[Service]
+Type=idle
+User=keycloak
+Group=keycloak
+ExecStart=/opt/keycloak/current/bin/standalone.sh -b 0.0.0.0
+TimeoutStartSec=600
+TimeoutStopSec=600
+ 
+[Install]
+WantedBy=multi-user.target
+EOF
 ```
 
 Reload the systemd daemon and start Keycloak.
 
 ```text
-$ systemctl daemon-reload$ systemctl enable keycloak$ systemctl start keycloak
+$ systemctl daemon-reload
+$ systemctl enable keycloak
+$ systemctl start keycloak
 ```
 
 Now, we'll install the Nginx server to do SSL termination for our Keycloak application. Install Nginx using the YUM package manager.
@@ -172,13 +228,51 @@ Copy the SSL certificates to the following paths on the server:
 Configure Nginx to proxy traffic for Keycloak. \(Change [my.url.com](http://my.url.com/) to your own URL\)
 
 ```text
-cat > /etc/nginx/conf.d/keycloak.conf <<EOFupstream keycloak {    # Use IP Hash for session persistence    ip_hash;      # List of Keycloak servers    server 127.0.0.1:8080;}        server {    listen 80;    server_name my.url.com;     # Redirect all HTTP to HTTPS    location / {         return 301 https://\$server_name\$request_uri;    }}  server {    listen 443 ssl http2;    server_name my.url.com;     ssl_certificate /etc/pki/tls/certs/my-cert.cer;    ssl_certificate_key /etc/pki/tls/private/my-key.key;    ssl_session_cache shared:SSL:1m;    ssl_prefer_server_ciphers on;     location / {      proxy_set_header Host $host;      proxy_set_header X-Real-IP $remote_addr;      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;      proxy_set_header X-Forwarded-Proto $scheme;      proxy_pass http://keycloak;    }}EOF
+cat > /etc/nginx/conf.d/keycloak.conf <<EOF
+upstream keycloak {
+    # Use IP Hash for session persistence
+    ip_hash;
+  
+    # List of Keycloak servers
+    server 127.0.0.1:8080;
+}
+  
+      
+server {
+    listen 80;
+    server_name my.url.com;
+ 
+    # Redirect all HTTP to HTTPS
+    location / {   
+      return 301 https://\$server_name\$request_uri;
+    }
+}
+  
+server {
+    listen 443 ssl http2;
+    server_name my.url.com;
+ 
+    ssl_certificate /etc/pki/tls/certs/my-cert.cer;
+    ssl_certificate_key /etc/pki/tls/private/my-key.key;
+    ssl_session_cache shared:SSL:1m;
+    ssl_prefer_server_ciphers on;
+ 
+    location / {
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_pass http://keycloak;
+    }
+}
+EOF
 ```
 
 Enable and start Nginx.
 
 ```text
-$ systemctl enable nginx$ systemctl start nginx
+$ systemctl enable nginx
+$ systemctl start nginx
 ```
 
 Open port 80 and 443 in your firewall and you're done!

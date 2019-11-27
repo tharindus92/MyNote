@@ -1,6 +1,17 @@
 # Install
 
 ```bash
-yum search pipyum install https://centos7.iuscommunity.org/ius-release.rpmyum makecacheyum search pip | grep python3yum install python36yum install python36-develyum install python36-setuptoolseasy_install-3.6 pippip3 -V
+yum search pip
+yum install https://centos7.iuscommunity.org/ius-release.rpm
+yum makecache
+yum search pip | grep python3
+
+yum install python36
+yum install python36-devel
+yum install python36-setuptools
+easy_install-3.6 pip
+
+pip3 -V
+
 ```
 

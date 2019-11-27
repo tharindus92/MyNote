@@ -3,7 +3,11 @@
 
 
 ```text
-Start-BitsTransfer -Source https://dockermsft.blob.core.windows.net/dockercontainer/docker-18-09-6.zip -Destination docker-18-09-6.zip Get-FileHash -Path docker-18-09-6.zip -Algorithm SHA256Install-Package -Name docker -ProviderName DockerMsftProvider -Verbose
+Start-BitsTransfer -Source https://dockermsft.blob.core.windows.net/dockercontainer/docker-18-09-6.zip -Destination docker-18-09-6.zip
+
+ Get-FileHash -Path docker-18-09-6.zip -Algorithm SHA256
+
+Install-Package -Name docker -ProviderName DockerMsftProvider -Verbose
 ```
 
 
@@ -49,18 +53,31 @@ Restart-Computer -Force
 Installed Docker version can be checked with:
 
 ```text
-Administrator> Get-Package -Name Docker -ProviderName DockerMsftProvider Name                           Version          Source                           ProviderName ----                           -------          ------                           ------------ docker                         18.09.2          DockerDefault                    DockerMsftProvider
+Administrator> Get-Package -Name Docker -ProviderName DockerMsftProvider
+ Name                           Version          Source                           ProviderName
+ ----                           -------          ------                           ------------
+ docker                         18.09.2          DockerDefault                    DockerMsftProvider
 ```
 
 The same can be achieved with the `docker --version` command.
 
 ```text
-PS C:\Users\Administrator> docker version Client:  Version:           18.09.2  API version:       1.39  Go version:        go1.10.6  Git commit:        1ac774dfdd  Built:             unknown-buildtime  OS/Arch:           windows/amd64  Experimental:      false error during connect: Get http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.39/version: open //./pipe/docker_engine: The system cannot find the file specified. In the default daemon configuration on Windows, the docker client must be run elevated to connect. This error may also indicate that the docker daemon is not running.
+PS C:\Users\Administrator> docker version
+ Client:
+  Version:           18.09.2
+  API version:       1.39
+  Go version:        go1.10.6
+  Git commit:        1ac774dfdd
+  Built:             unknown-buildtime
+  OS/Arch:           windows/amd64
+  Experimental:      false
+ error during connect: Get http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.39/version: open //./pipe/docker_engine: The system cannot find the file specified. In the default daemon configuration on Windows, the docker client must be run elevated to connect. This error may also indicate that the docker daemon is not running.
 ```
 
 Upgrade can be done anytime by running the following commands on PowerShell.
 
 ```text
-Install-Package -Name Docker -ProviderName DockerMsftProvider -Update -ForceStart-Service Docker
+Install-Package -Name Docker -ProviderName DockerMsftProvider -Update -Force
+Start-Service Docker
 ```
 

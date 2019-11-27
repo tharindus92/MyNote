@@ -166,7 +166,13 @@ Let’s look at some aspects of this _domain.xml_ file. The `auth-server-standal
 **auth-server profile**
 
 ```text
-    <profiles>        <profile name="auth-server-standalone">            ...        </profile>        <profile name="auth-server-clustered">            ...        </profile>
+    <profiles>
+        <profile name="auth-server-standalone">
+            ...
+        </profile>
+        <profile name="auth-server-clustered">
+            ...
+        </profile>
 ```
 
 The `auth-server-standalone` profile is a non-clustered setup. The `auth-server-clustered` profile is the clustered setup.
@@ -176,7 +182,18 @@ If you scroll down further, you’ll see various `socket-binding-groups` defined
 **socket-binding-groups**
 
 ```text
-    <socket-binding-groups>        <socket-binding-group name="standard-sockets" default-interface="public">           ...        </socket-binding-group>        <socket-binding-group name="ha-sockets" default-interface="public">           ...        </socket-binding-group>        <!-- load-balancer-sockets should be removed in production systems and replaced with a better software or hardware based one -->        <socket-binding-group name="load-balancer-sockets" default-interface="public">           ...        </socket-binding-group>    </socket-binding-groups>
+    <socket-binding-groups>
+        <socket-binding-group name="standard-sockets" default-interface="public">
+           ...
+        </socket-binding-group>
+        <socket-binding-group name="ha-sockets" default-interface="public">
+           ...
+        </socket-binding-group>
+        <!-- load-balancer-sockets should be removed in production systems and replaced with a better software or hardware based one -->
+        <socket-binding-group name="load-balancer-sockets" default-interface="public">
+           ...
+        </socket-binding-group>
+    </socket-binding-groups>
 ```
 
 This config defines the default port mappings for various connectors that are opened with each Keycloak server instance. Any value that contains `${…​}` is a value that can be overridden on the command line with the `-D` switch, i.e.
@@ -200,13 +217,22 @@ Host Controller Config
 To disable the load balancer server instance, edit _host-master.xml_ and comment out or remove the `"load-balancer"` entry.
 
 ```text
-    <servers>        <!-- remove or comment out next line -->        <server name="load-balancer" group="loadbalancer-group"/>        ...    </servers>
+    <servers>
+        <!-- remove or comment out next line -->
+        <server name="load-balancer" group="loadbalancer-group"/>
+        ...
+    </servers>
 ```
 
 Another interesting thing to note about this file is the declaration of the authentication server instance. It has a `port-offset` setting. Any network port defined in the _domain.xml_ `socket-binding-group` or the server group will have the value of `port-offset` added to it. For this example domain setup we do this so that ports opened by the load balancer server don’t conflict with the authentication server instance that is started.
 
 ```text
-    ​<servers>        ...        <server name="server-one" group="auth-server-group" auto-start="true">             <socket-bindings port-offset="150"/>        </server>    </servers
+    ​<servers>
+        ...
+        <server name="server-one" group="auth-server-group" auto-start="true">
+             <socket-bindings port-offset="150"/>
+        </server>
+    </servers
 ```
 
 #### **3.3.3. Server Instance Working Directories**
@@ -220,13 +246,22 @@ Host Controller Config
 To disable the load balancer server instance, edit _host-master.xml_ and comment out or remove the `"load-balancer"` entry.
 
 ```text
-    <servers>        <!-- remove or comment out next line -->        <server name="load-balancer" group="loadbalancer-group"/>        ...    </servers>
+    <servers>
+        <!-- remove or comment out next line -->
+        <server name="load-balancer" group="loadbalancer-group"/>
+        ...
+    </servers>
 ```
 
 Another interesting thing to note about this file is the declaration of the authentication server instance. It has a `port-offset` setting. Any network port defined in the _domain.xml_ `socket-binding-group` or the server group will have the value of `port-offset` added to it. For this example domain setup we do this so that ports opened by the load balancer server don’t conflict with the authentication server instance that is started.
 
 ```text
-    ​<servers>        ...        <server name="server-one" group="auth-server-group" auto-start="true">             <socket-bindings port-offset="150"/>        </server>    </servers
+    ​<servers>
+        ...
+        <server name="server-one" group="auth-server-group" auto-start="true">
+             <socket-bindings port-offset="150"/>
+        </server>
+    </servers
 ```
 
 #### **3.3.3. Server Instance Working Directories**
@@ -286,13 +321,42 @@ Before you can boot things up though, you have to configure the slave host contr
 When you run the script select `Management User` and answer `yes` when it asks you if the new user is going to be used for one AS process to connect to another. This will generate a secret that you’ll need to cut and paste into the _…​/domain/configuration/host-slave.xml_ file.Add App Server Admin
 
 ```text
-$ add-user.sh What type of user do you wish to add?  a) Management User (mgmt-users.properties)  b) Application User (application-users.properties) (a): a Enter the details of the new user to add. Using realm 'ManagementRealm' as discovered from the existing property files. Username : admin Password recommendations are listed below. To modify these restrictions edit the add-user.properties configuration file.  - The password should not be one of the following restricted values {root, admin, administrator}  - The password should contain at least 8 characters, 1 alphabetic character(s), 1 digit(s), 1 non-alphanumeric symbol(s)  - The password should be different from the username Password : Re-enter Password : What groups do you want this user to belong to? (Please enter a comma separated list, or leave blank for none)[ ]: About to add user 'admin' for realm 'ManagementRealm' Is this correct yes/no? yes Added user 'admin' to file '/.../standalone/configuration/mgmt-users.properties' Added user 'admin' to file '/.../domain/configuration/mgmt-users.properties' Added user 'admin' with groups to file '/.../standalone/configuration/mgmt-groups.properties' Added user 'admin' with groups to file '/.../domain/configuration/mgmt-groups.properties' Is this new user going to be used for one AS process to connect to another AS process? e.g. for a slave host controller connecting to the master or for a Remoting connection for server to server EJB calls. yes/no? yes To represent the user add the following to the server-identities definition <secret value="bWdtdDEyMyE=" />
+$ add-user.sh
+ What type of user do you wish to add?
+  a) Management User (mgmt-users.properties)
+  b) Application User (application-users.properties)
+ (a): a
+ Enter the details of the new user to add.
+ Using realm 'ManagementRealm' as discovered from the existing property files.
+ Username : admin
+ Password recommendations are listed below. To modify these restrictions edit the add-user.properties configuration file.
+  - The password should not be one of the following restricted values {root, admin, administrator}
+  - The password should contain at least 8 characters, 1 alphabetic character(s), 1 digit(s), 1 non-alphanumeric symbol(s)
+  - The password should be different from the username
+ Password :
+ Re-enter Password :
+ What groups do you want this user to belong to? (Please enter a comma separated list, or leave blank for none)[ ]:
+ About to add user 'admin' for realm 'ManagementRealm'
+ Is this correct yes/no? yes
+ Added user 'admin' to file '/.../standalone/configuration/mgmt-users.properties'
+ Added user 'admin' to file '/.../domain/configuration/mgmt-users.properties'
+ Added user 'admin' with groups to file '/.../standalone/configuration/mgmt-groups.properties'
+ Added user 'admin' with groups to file '/.../domain/configuration/mgmt-groups.properties'
+ Is this new user going to be used for one AS process to connect to another AS process?
+ e.g. for a slave host controller connecting to the master or for a Remoting connection for server to server EJB calls.
+ yes/no? yes
+ To represent the user add the following to the server-identities definition <secret value="bWdtdDEyMyE=" />
 ```
 
 Now cut and paste the secret value into the _…​/domain/configuration/host-slave.xml_ file as follows:
 
 ```text
-     <management>         <security-realms>             <security-realm name="ManagementRealm">                 <server-identities>                     <secret value="bWdtdDEyMyE="/>                 </server-identities>
+     <management>
+         <security-realms>
+             <security-realm name="ManagementRealm">
+                 <server-identities>
+                     <secret value="bWdtdDEyMyE="/>
+                 </server-identities>
 ```
 
 You will also need to add the _username_ of the created user in the _…​/domain/configuration/host-slave.xml_ file:
@@ -431,19 +495,36 @@ Follow these steps to set up the Infinispan server:
    1. Add the `xsite` channel, which will use `tcp` stack, under `channels` element:
 
       ```text
-      <channels default="cluster">    <channel name="cluster"/>    <channel name="xsite" stack="tcp"/></channels>
+      <channels default="cluster">
+          <channel name="cluster"/>
+          <channel name="xsite" stack="tcp"/>
+      </channels>
       ```
 
    2. Add a `relay` element to the end of the `udp` stack. We will configure it in a way that our site is `site1` and the other site, where we will backup, is `site2`:
 
       ```text
-      <stack name="udp">    ...    <relay site="site1">        <remote-site name="site2" channel="xsite"/>        <property name="relay_multicasts">false</property>    </relay></stack>
+      <stack name="udp">
+          ...
+          <relay site="site1">
+              <remote-site name="site2" channel="xsite"/>
+              <property name="relay_multicasts">false</property>
+          </relay>
+      </stack>
       ```
 
    3. Configure the `tcp` stack to use `TCPPING` protocol instead of `MPING`. Remove the `MPING` element and replace it with the `TCPPING`. The `initial_hosts` element points to the hosts `jdg1` and `jdg2`:
 
       ```text
-      <stack name="tcp">    <transport type="TCP" socket-binding="jgroups-tcp"/>    <protocol type="TCPPING">        <property name="initial_hosts">jdg1[7600],jdg2[7600]</property>        <property name="ergonomics">false</property>    </protocol>    <protocol type="MERGE3"/>    ...</stack>
+      <stack name="tcp">
+          <transport type="TCP" socket-binding="jgroups-tcp"/>
+          <protocol type="TCPPING">
+              <property name="initial_hosts">jdg1[7600],jdg2[7600]</property>
+              <property name="ergonomics">false</property>
+          </protocol>
+          <protocol type="MERGE3"/>
+          ...
+      </stack>
       ```
 
       |  | This is just an example setup to have things quickly running. In production, you are not required to use `tcp` stack for the JGroups `RELAY2`, but you can configure any other stack. For example, you could use the default udp stack, if the network between your data centers is able to support multicast. Just make sure that the Infinispan and Keycloak clusters are mutually indiscoverable. Similarly, you are not required to use `TCPPING` as discovery protocol. And in production, you probably won’t use `TCPPING` due it’s static nature. Finally, site names are also configurable. Details of this more-detailed setup are out-of-scope of the Keycloak documentation. See the Infinispan documentation and JGroups documentation for more details. |
@@ -451,7 +532,26 @@ Follow these steps to set up the Infinispan server:
 3. Add this into `JDG1_HOME/standalone/configuration/clustered.xml` under cache-container named `clustered`:
 
    ```text
-   <cache-container name="clustered" default-cache="default" statistics="true">        ...        <replicated-cache-configuration name="sessions-cfg" mode="SYNC" start="EAGER" batching="false">            <locking acquire-timeout="0" />            <backups>                <backup site="site2" failure-policy="FAIL" strategy="SYNC" enabled="true">                    <take-offline min-wait="60000" after-failures="3" />                </backup>            </backups>        </replicated-cache-configuration>        <replicated-cache name="work" configuration="sessions-cfg"/>        <replicated-cache name="sessions" configuration="sessions-cfg"/>        <replicated-cache name="clientSessions" configuration="sessions-cfg"/>        <replicated-cache name="offlineSessions" configuration="sessions-cfg"/>        <replicated-cache name="offlineClientSessions" configuration="sessions-cfg"/>        <replicated-cache name="actionTokens" configuration="sessions-cfg"/>        <replicated-cache name="loginFailures" configuration="sessions-cfg"/></cache-container>
+   <cache-container name="clustered" default-cache="default" statistics="true">
+           ...
+           <replicated-cache-configuration name="sessions-cfg" mode="SYNC" start="EAGER" batching="false">
+               <locking acquire-timeout="0" />
+               <backups>
+                   <backup site="site2" failure-policy="FAIL" strategy="SYNC" enabled="true">
+                       <take-offline min-wait="60000" after-failures="3" />
+                   </backup>
+               </backups>
+           </replicated-cache-configuration>
+
+           <replicated-cache name="work" configuration="sessions-cfg"/>
+           <replicated-cache name="sessions" configuration="sessions-cfg"/>
+           <replicated-cache name="clientSessions" configuration="sessions-cfg"/>
+           <replicated-cache name="offlineSessions" configuration="sessions-cfg"/>
+           <replicated-cache name="offlineClientSessions" configuration="sessions-cfg"/>
+           <replicated-cache name="actionTokens" configuration="sessions-cfg"/>
+           <replicated-cache name="loginFailures" configuration="sessions-cfg"/>
+
+   </cache-container>
    ```
 
    |  | Details about the configuration options inside `replicated-cache-configuration` are explained in [Tuning the JDG cache configuration](https://www.keycloak.org/docs/7.0/server_installation/#tuningcache), which includes information about tweaking some of those options. |
@@ -472,19 +572,48 @@ Follow these steps to set up the Infinispan server:
    1. In the `<management>` section, add a security realm:
 
       ```text
-      <management>    <security-realms>        ...        <security-realm name="AllowScriptManager">            <authentication>                <users>                    <user username="___script_manager">                        <password>not-so-secret-password</password>                    </user>                </users>            </authentication>        </security-realm>    </security-realms>
+      <management>
+          <security-realms>
+              ...
+              <security-realm name="AllowScriptManager">
+                  <authentication>
+                      <users>
+                          <user username="___script_manager">
+                              <password>not-so-secret-password</password>
+                          </user>
+                      </users>
+                  </authentication>
+              </security-realm>
+          </security-realms>
       ```
 
    2. In the server core subsystem, add `<security>` as below:
 
       ```text
-      <subsystem xmlns="urn:infinispan:server:core:8.4">    <cache-container name="clustered" default-cache="default" statistics="true">        <security>            <authorization>                <identity-role-mapper/>                <role name="___script_manager" permissions="ALL"/>            </authorization>        </security>        ...
+      <subsystem xmlns="urn:infinispan:server:core:8.4">
+          <cache-container name="clustered" default-cache="default" statistics="true">
+              <security>
+                  <authorization>
+                      <identity-role-mapper/>
+                      <role name="___script_manager" permissions="ALL"/>
+                  </authorization>
+              </security>
+              ...
       ```
 
    3. In the endpoint subsystem, add authentication configuration to Hot Rod connector:
 
       ```text
-      <subsystem xmlns="urn:infinispan:server:endpoint:8.1">    <hotrod-connector cache-container="clustered" socket-binding="hotrod">        ...        <authentication security-realm="AllowScriptManager">            <sasl mechanisms="DIGEST-MD5" qop="auth" server-name="keycloak-jdg-server">                <policy>                    <no-anonymous value="false" />                </policy>            </sasl>        </authentication>
+      <subsystem xmlns="urn:infinispan:server:endpoint:8.1">
+          <hotrod-connector cache-container="clustered" socket-binding="hotrod">
+              ...
+              <authentication security-realm="AllowScriptManager">
+                  <sasl mechanisms="DIGEST-MD5" qop="auth" server-name="keycloak-jdg-server">
+                      <policy>
+                          <no-anonymous value="false" />
+                      </policy>
+                  </sasl>
+              </authentication>
       ```
 
 5. Copy the server to the second location, which will be referred to later as `JDG2_HOME`.
@@ -492,32 +621,44 @@ Follow these steps to set up the Infinispan server:
    1. The `relay` element should look like this:
 
       ```text
-      <relay site="site2">    <remote-site name="site1" channel="xsite"/>    <property name="relay_multicasts">false</property></relay>
+      <relay site="site2">
+          <remote-site name="site1" channel="xsite"/>
+          <property name="relay_multicasts">false</property>
+      </relay>
       ```
 
    2. The `backups` element like this:
 
       ```text
-                  <backups>                <backup site="site1" ....                ...
+                  <backups>
+                      <backup site="site1" ....
+                      ...
       ```
 
       It is currently required to have different configuration files for the JDG servers on both sites as the Infinispan subsystem does not support replacing site names with expressions. See [this issue](https://issues.jboss.org/browse/WFLY-9458) for more details.
 7. Start server `jdg1`:
 
    ```text
-   cd JDG1_HOME/bin./standalone.sh -c clustered.xml -Djava.net.preferIPv4Stack=true \  -Djboss.default.multicast.address=234.56.78.99 \  -Djboss.node.name=jdg1 -b PUBLIC_IP_ADDRESS
+   cd JDG1_HOME/bin
+   ./standalone.sh -c clustered.xml -Djava.net.preferIPv4Stack=true \
+     -Djboss.default.multicast.address=234.56.78.99 \
+     -Djboss.node.name=jdg1 -b PUBLIC_IP_ADDRESS
    ```
 
 8. Start server `jdg2`. There is a different multicast address, so the `jdg1` and `jdg2` servers are not directly clustered with each other; rather, they are just connected through the RELAY2 protocol, and the TCP JGroups stack is used for communication between them. The start up command looks like this:
 
    ```text
-   cd JDG2_HOME/bin./standalone.sh -c clustered.xml -Djava.net.preferIPv4Stack=true \  -Djboss.default.multicast.address=234.56.78.100 \  -Djboss.node.name=jdg2 -b PUBLIC_IP_ADDRESS
+   cd JDG2_HOME/bin
+   ./standalone.sh -c clustered.xml -Djava.net.preferIPv4Stack=true \
+     -Djboss.default.multicast.address=234.56.78.100 \
+     -Djboss.node.name=jdg2 -b PUBLIC_IP_ADDRESS
    ```
 
 9. To verify that channel works at this point, you may need to use JConsole and connect either to the running `JDG1` or the `JDG2` server. When you use the MBean `jgroups:type=protocol,cluster="cluster",protocol=RELAY2` and operation `printRoutes`, you should see output like this:
 
    ```text
-   site1 --> _jdg1:site1site2 --> _jdg2:site2
+   site1 --> _jdg1:site1
+   site2 --> _jdg2:site2
    ```
 
    When you use the MBean `jgroups:type=protocol,cluster="cluster",protocol=GMS`, you should see that the attribute member contains just single member:
@@ -548,7 +689,8 @@ Follow these steps to set up the Infinispan server:
    1. Add the attribute `site` to the JGroups UDP protocol:
 
       ```text
-                        <stack name="udp">                      <transport type="UDP" socket-binding="jgroups-udp" site="${jboss.site.name}"/>
+                        <stack name="udp">
+                            <transport type="UDP" socket-binding="jgroups-udp" site="${jboss.site.name}"/>
       ```
 
    2. Add this `module` attribute under `cache-container` element of name `keycloak` :
@@ -560,44 +702,108 @@ Follow these steps to set up the Infinispan server:
    3. Add the `remote-store` under `work` cache:
 
       ```text
-      <replicated-cache name="work">    <remote-store cache="work" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></replicated-cache>
+      <replicated-cache name="work">
+          <remote-store cache="work" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </replicated-cache>
       ```
 
    4. Add the `remote-store` like this under `sessions` cache:
 
       ```text
-      <distributed-cache name="sessions" owners="1">    <remote-store cache="sessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></distributed-cache>
+      <distributed-cache name="sessions" owners="1">
+          <remote-store cache="sessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </distributed-cache>
       ```
 
    5. Do the same for `offlineSessions`, `clientSessions`, `offlineClientSessions`, `loginFailures`, and `actionTokens` caches \(the only difference from `sessions` cache is that `cache` property value are different\):
 
       ```text
-      <distributed-cache name="offlineSessions" owners="1">    <remote-store cache="offlineSessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></distributed-cache><distributed-cache name="clientSessions" owners="1">    <remote-store cache="clientSessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></distributed-cache><distributed-cache name="offlineClientSessions" owners="1">    <remote-store cache="offlineClientSessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></distributed-cache><distributed-cache name="loginFailures" owners="1">    <remote-store cache="loginFailures" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></distributed-cache><distributed-cache name="actionTokens" owners="2">    <object-memory size="-1"/>    <expiration max-idle="-1" interval="300000"/>    <remote-store cache="actionTokens" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="true" shared="true">        <property name="rawValues">true</property>        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>    </remote-store></distributed-cache>
+      <distributed-cache name="offlineSessions" owners="1">
+          <remote-store cache="offlineSessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </distributed-cache>
+
+      <distributed-cache name="clientSessions" owners="1">
+          <remote-store cache="clientSessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </distributed-cache>
+
+      <distributed-cache name="offlineClientSessions" owners="1">
+          <remote-store cache="offlineClientSessions" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </distributed-cache>
+
+      <distributed-cache name="loginFailures" owners="1">
+          <remote-store cache="loginFailures" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="false" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </distributed-cache>
+
+      <distributed-cache name="actionTokens" owners="2">
+          <object-memory size="-1"/>
+          <expiration max-idle="-1" interval="300000"/>
+          <remote-store cache="actionTokens" remote-servers="remote-cache" passivation="false" fetch-state="false" purge="false" preload="true" shared="true">
+              <property name="rawValues">true</property>
+              <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+          </remote-store>
+      </distributed-cache>
       ```
 
    6. Add outbound socket binding for the remote store into `socket-binding-group` element configuration:
 
       ```text
-      <outbound-socket-binding name="remote-cache">    <remote-destination host="${remote.cache.host:localhost}" port="${remote.cache.port:11222}"/></outbound-socket-binding>
+      <outbound-socket-binding name="remote-cache">
+          <remote-destination host="${remote.cache.host:localhost}" port="${remote.cache.port:11222}"/>
+      </outbound-socket-binding>
       ```
 
    7. The configuration of distributed cache `authenticationSessions` and other caches is left unchanged.
    8. Optionally enable DEBUG logging under the `logging` subsystem:
 
       ```text
-      <logger category="org.keycloak.cluster.infinispan">    <level name="DEBUG"/></logger><logger category="org.keycloak.connections.infinispan">    <level name="DEBUG"/></logger><logger category="org.keycloak.models.cache.infinispan">    <level name="DEBUG"/></logger><logger category="org.keycloak.models.sessions.infinispan">    <level name="DEBUG"/></logger>
+      <logger category="org.keycloak.cluster.infinispan">
+          <level name="DEBUG"/>
+      </logger>
+      <logger category="org.keycloak.connections.infinispan">
+          <level name="DEBUG"/>
+      </logger>
+      <logger category="org.keycloak.models.cache.infinispan">
+          <level name="DEBUG"/>
+      </logger>
+      <logger category="org.keycloak.models.sessions.infinispan">
+          <level name="DEBUG"/>
+      </logger>
       ```
 4. Copy the `NODE11` to 3 other directories referred later as `NODE12`, `NODE21` and `NODE22`.
 5. Start `NODE11` :
 
    ```text
-   cd NODE11/bin./standalone.sh -c standalone-ha.xml -Djboss.node.name=node11 -Djboss.site.name=site1 \  -Djboss.default.multicast.address=234.56.78.1 -Dremote.cache.host=jdg1 \  -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
+   cd NODE11/bin
+   ./standalone.sh -c standalone-ha.xml -Djboss.node.name=node11 -Djboss.site.name=site1 \
+     -Djboss.default.multicast.address=234.56.78.1 -Dremote.cache.host=jdg1 \
+     -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
    ```
 
 6. Start `NODE12` :
 
    ```text
-   cd NODE12/bin./standalone.sh -c standalone-ha.xml -Djboss.node.name=node12 -Djboss.site.name=site1 \  -Djboss.default.multicast.address=234.56.78.1 -Dremote.cache.host=jdg1 \  -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
+   cd NODE12/bin
+   ./standalone.sh -c standalone-ha.xml -Djboss.node.name=node12 -Djboss.site.name=site1 \
+     -Djboss.default.multicast.address=234.56.78.1 -Dremote.cache.host=jdg1 \
+     -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
    ```
 
    The cluster nodes should be connected. Something like this should be in the log of both NODE11 and NODE12:
@@ -612,7 +818,10 @@ Follow these steps to set up the Infinispan server:
 7. Start `NODE21` :
 
    ```text
-   cd NODE21/bin./standalone.sh -c standalone-ha.xml -Djboss.node.name=node21 -Djboss.site.name=site2 \  -Djboss.default.multicast.address=234.56.78.2 -Dremote.cache.host=jdg2 \  -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
+   cd NODE21/bin
+   ./standalone.sh -c standalone-ha.xml -Djboss.node.name=node21 -Djboss.site.name=site2 \
+     -Djboss.default.multicast.address=234.56.78.2 -Dremote.cache.host=jdg2 \
+     -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
    ```
 
    It shouldn’t be connected to the cluster with `NODE11` and `NODE12`, but to separate one:
@@ -624,7 +833,10 @@ Follow these steps to set up the Infinispan server:
 8. Start `NODE22` :
 
    ```text
-   cd NODE22/bin./standalone.sh -c standalone-ha.xml -Djboss.node.name=node22 -Djboss.site.name=site2 \  -Djboss.default.multicast.address=234.56.78.2 -Dremote.cache.host=jdg2 \  -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
+   cd NODE22/bin
+   ./standalone.sh -c standalone-ha.xml -Djboss.node.name=node22 -Djboss.site.name=site2 \
+     -Djboss.default.multicast.address=234.56.78.2 -Dremote.cache.host=jdg2 \
+     -Djava.net.preferIPv4Stack=true -b PUBLIC_IP_ADDRESS
    ```
 
    It should be in cluster with `NODE21` :
@@ -644,7 +856,8 @@ Follow these steps to set up the Infinispan server:
    5. Check server.logs if needed. After login or logout, the message like this should be on all the nodes `NODEXY/standalone/log/server.log` :
 
       ```text
-      2017-08-25 17:35:17,737 DEBUG [org.keycloak.models.sessions.infinispan.remotestore.RemoteCacheSessionListener] (Client-Listener-sessions-30012a77422542f5) Received event from remote store.Event 'CLIENT_CACHE_ENTRY_REMOVED', key '193489e7-e2bc-4069-afe8-f1dfa73084ea', skip 'false'
+      2017-08-25 17:35:17,737 DEBUG [org.keycloak.models.sessions.infinispan.remotestore.RemoteCacheSessionListener] (Client-Listener-sessions-30012a77422542f5) Received event from remote store.
+      Event 'CLIENT_CACHE_ENTRY_REMOVED', key '193489e7-e2bc-4069-afe8-f1dfa73084ea', skip 'false'
       ```
 
 **3.4.9. Administration of Cross DC deployment**
@@ -801,7 +1014,8 @@ The following tips are intended to assist you should you need to troubleshoot:
 * For the Keycloak servers, you should see a message like this during the server startup:
 
   ```text
-  18:09:30,156 INFO  [org.keycloak.connections.infinispan.DefaultInfinispanConnectionProviderFactory] (ServerService Thread Pool -- 54)Node name: node11, Site name: site1
+  18:09:30,156 INFO  [org.keycloak.connections.infinispan.DefaultInfinispanConnectionProviderFactory] (ServerService Thread Pool -- 54)
+  Node name: node11, Site name: site1
   ```
 
   Check that the site name and the node name looks as expected during the startup of Keycloak server.
@@ -810,7 +1024,10 @@ The following tips are intended to assist you should you need to troubleshoot:
 * If there are exceptions during startup of Keycloak server like this:
 
   ```text
-  17:33:58,605 ERROR [org.infinispan.client.hotrod.impl.operations.RetryOnFailureOperation] (ServerService Thread Pool -- 59) ISPN004007: Exception encountered. Retry 10 out of 10: org.infinispan.client.hotrod.exceptions.TransportException:: Could not fetch transport...Caused by: org.infinispan.client.hotrod.exceptions.TransportException:: Could not connect to server: 127.0.0.1:12232	at org.infinispan.client.hotrod.impl.transport.tcp.TcpTransport.<init>(TcpTransport.java:82)
+  17:33:58,605 ERROR [org.infinispan.client.hotrod.impl.operations.RetryOnFailureOperation] (ServerService Thread Pool -- 59) ISPN004007: Exception encountered. Retry 10 out of 10: org.infinispan.client.hotrod.exceptions.TransportException:: Could not fetch transport
+  ...
+  Caused by: org.infinispan.client.hotrod.exceptions.TransportException:: Could not connect to server: 127.0.0.1:12232
+  	at org.infinispan.client.hotrod.impl.transport.tcp.TcpTransport.<init>(TcpTransport.java:82)
   ```
 
   it usually means that Keycloak server is not able to reach the Infinispan server in his own datacenter. Make sure that firewall is set as expected and Infinispan server is possible to connect.
@@ -818,7 +1035,8 @@ The following tips are intended to assist you should you need to troubleshoot:
 * If there are exceptions during startup of Keycloak server like this:
 
   ```text
-  16:44:18,321 WARN  [org.infinispan.client.hotrod.impl.protocol.Codec21] (ServerService Thread Pool -- 57) ISPN004005: Error received from the server: javax.transaction.RollbackException: ARJUNA016053: Could not commit transaction. ...
+  16:44:18,321 WARN  [org.infinispan.client.hotrod.impl.protocol.Codec21] (ServerService Thread Pool -- 57) ISPN004005: Error received from the server: javax.transaction.RollbackException: ARJUNA016053: Could not commit transaction.
+   ...
   ```
 
   then check the log of corresponding Infinispan server of your site and check if has failed to backup to the other site. If the backup site is unavailable, then it is recommended to switch it offline, so that Infinispan server won’t try to backup to the offline site causing the operations to pass successfully on Keycloak server side as well. See [Administration of Cross DC deployment](https://www.keycloak.org/docs/7.0/server_installation/#administration) for more information.
@@ -829,7 +1047,9 @@ The following tips are intended to assist you should you need to troubleshoot:
 * Sometimes you may see the exceptions related to locks like this in Infinispan server log:
 
   ```text
-  (HotRodServerHandler-6-35) ISPN000136: Error executing command ReplaceCommand,writing keys [[B0x033E243034396234..[39]]: org.infinispan.util.concurrent.TimeoutException: ISPN000299: Unable to acquire lock after0 milliseconds for key [B0x033E243034396234..[39] and requestor GlobalTx:jdg1:4353. Lock is held by GlobalTx:jdg1:4352
+  (HotRodServerHandler-6-35) ISPN000136: Error executing command ReplaceCommand,
+  writing keys [[B0x033E243034396234..[39]]: org.infinispan.util.concurrent.TimeoutException: ISPN000299: Unable to acquire lock after
+  0 milliseconds for key [B0x033E243034396234..[39] and requestor GlobalTx:jdg1:4353. Lock is held by GlobalTx:jdg1:4352
   ```
 
   Those exceptions are not necessarily an issue. They may happen anytime when a concurrent edit of the same entity is triggered on both DCs. This is common in a deployment. Usually the Keycloak server is notified about the failed operation and will retry it, so from the user’s point of view, there is usually not any issue.
@@ -837,13 +1057,24 @@ The following tips are intended to assist you should you need to troubleshoot:
 * If there are exceptions during startup of Keycloak server, like this:
 
   ```text
-  16:44:18,321 WARN  [org.infinispan.client.hotrod.impl.protocol.Codec21] (ServerService Thread Pool -- 55) ISPN004005: Error received from the server: java.lang.SecurityException: ISPN000287: Unauthorized access: subject 'Subject with principal(s): []' lacks 'READ' permission ...
+  16:44:18,321 WARN  [org.infinispan.client.hotrod.impl.protocol.Codec21] (ServerService Thread Pool -- 55) ISPN004005: Error received from the server: java.lang.SecurityException: ISPN000287: Unauthorized access: subject 'Subject with principal(s): []' lacks 'READ' permission
+   ...
   ```
 
   These log entries are the result of Keycloak automatically detecting whether authentication is required on Infinispan and mean that authentication is necessary. At this point you will notice that either the server starts successfully and you can safely ignore these or that the server fails to start. If the server fails to start, ensure that Infinispan has been configured properly for authentication as described in [Infinispan server setup](https://www.keycloak.org/docs/7.0/server_installation/#jdgsetup). To prevent this log entry from being included, you can force authentication by setting `remoteStoreSecurityEnabled` property to `true` in `spi=connectionsInfinispan/provider=default` configuration:
 
   ```text
-  <subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">    ...    <spi name="connectionsInfinispan">        ...        <provider name="default" enabled="true">            <properties>                ...                <property name="remoteStoreSecurityEnabled" value="true"/>            </properties>        </provider>    </spi>
+  <subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">
+      ...
+      <spi name="connectionsInfinispan">
+          ...
+          <provider name="default" enabled="true">
+              <properties>
+                  ...
+                  <property name="remoteStoreSecurityEnabled" value="true"/>
+              </properties>
+          </provider>
+      </spi>
   ```
 
 * If you try to authenticate with Keycloak to your application, but authentication fails with an infinite number of redirects in your browser and you see the errors like this in the Keycloak server log:
@@ -857,13 +1088,18 @@ The following tips are intended to assist you should you need to troubleshoot:
 * If the Infinispan `work` cache grows indefinitely, you may be experiencing [this Infinispan issue](https://issues.jboss.org/browse/JDG-987), which is caused by cache items not being properly expired. In that case, update the cache declaration with an empty `<expiration />` tag like this:
 
   ```text
-      <replicated-cache name="work" configuration="sessions-cfg">        <expiration />    </replicated-cache>
+      <replicated-cache name="work" configuration="sessions-cfg">
+          <expiration />
+      </replicated-cache>
   ```
 
 * If you see Warnings in the Infinispan server log like:
 
   ```text
-  18:06:19,687 WARN  [org.infinispan.server.hotrod.Decoder2x] (HotRod-ServerWorker-7-12) ISPN006011: Operation 'PUT_IF_ABSENT' forced to  return previous value should be used on transactional caches, otherwise data inconsistency issues could arise under failure situations18:06:19,700 WARN  [org.infinispan.server.hotrod.Decoder2x] (HotRod-ServerWorker-7-10) ISPN006010: Conditional operation 'REPLACE_IF_UNMODIFIED' should  be used with transactional caches, otherwise data inconsistency issues could arise under failure situations
+  18:06:19,687 WARN  [org.infinispan.server.hotrod.Decoder2x] (HotRod-ServerWorker-7-12) ISPN006011: Operation 'PUT_IF_ABSENT' forced to
+    return previous value should be used on transactional caches, otherwise data inconsistency issues could arise under failure situations
+  18:06:19,700 WARN  [org.infinispan.server.hotrod.Decoder2x] (HotRod-ServerWorker-7-10) ISPN006010: Conditional operation 'REPLACE_IF_UNMODIFIED' should
+    be used with transactional caches, otherwise data inconsistency issues could arise under failure situations
   ```
 
   you can just ignore them. To avoid the warning, the caches on Infinispan server side could be changed to transactional caches, but this is not recommended as it can cause some other issues caused by the bug [https://issues.jboss.org/browse/ISPN-9323](https://issues.jboss.org/browse/ISPN-9323). So for now, the warnings just need to be ignored.
@@ -871,7 +1107,12 @@ The following tips are intended to assist you should you need to troubleshoot:
 * If you see errors in the Infinispan server log like:
 
   ```text
-  12:08:32,921 ERROR [org.infinispan.server.hotrod.CacheDecodeContext] (HotRod-ServerWorker-7-11) ISPN005003: Exception reported: org.infinispan.server.hotrod.InvalidMagicIdException: Error reading magic byte or message id: 7	at org.infinispan.server.hotrod.HotRodDecoder.readHeader(HotRodDecoder.java:184)	at org.infinispan.server.hotrod.HotRodDecoder.decodeHeader(HotRodDecoder.java:133)	at org.infinispan.server.hotrod.HotRodDecoder.decode(HotRodDecoder.java:92)	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:411)	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:248)
+  12:08:32,921 ERROR [org.infinispan.server.hotrod.CacheDecodeContext] (HotRod-ServerWorker-7-11) ISPN005003: Exception reported: org.infinispan.server.hotrod.InvalidMagicIdException: Error reading magic byte or message id: 7
+  	at org.infinispan.server.hotrod.HotRodDecoder.readHeader(HotRodDecoder.java:184)
+  	at org.infinispan.server.hotrod.HotRodDecoder.decodeHeader(HotRodDecoder.java:133)
+  	at org.infinispan.server.hotrod.HotRodDecoder.decode(HotRodDecoder.java:92)
+  	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:411)
+  	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:248)
   ```
 
   and you see some similar errors in the Keycloak log, it can indicate that there are incompatible versions of the HotRod protocol being used. This is likely happen when you try to use Keycloak with the JDG 7.2 server or an old version of the Infinispan server. It will help if you add the `protocolVersion` property as an additional property to the `remote-store` element in the Keycloak configuration file. For example:
@@ -889,7 +1130,10 @@ While there are endless settings you can configure here, this section will focus
 The keycloak-server subsystem is typically declared toward the end of the file like this:
 
 ```text
-<subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">   <web-context>auth</web-context>   ...</subsystem>
+<subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">
+   <web-context>auth</web-context>
+   ...
+</subsystem>
 ```
 
 Note that anything changed in this subsystem will not take effect until the server is rebooted.
@@ -903,7 +1147,19 @@ Keycloak is a highly modular system that allows great flexibility. There are mor
 All elements in an SPI declaration are optional, but a full SPI declaration looks like this:
 
 ```text
-<spi name="myspi">    <default-provider>myprovider</default-provider>    <provider name="myprovider" enabled="true">        <properties>            <property name="foo" value="bar"/>        </properties>    </provider>    <provider name="mysecondprovider" enabled="true">        <properties>            <property name="foo" value="foo"/>        </properties>    </provider></spi>
+<spi name="myspi">
+    <default-provider>myprovider</default-provider>
+    <provider name="myprovider" enabled="true">
+        <properties>
+            <property name="foo" value="bar"/>
+        </properties>
+    </provider>
+    <provider name="mysecondprovider" enabled="true">
+        <properties>
+            <property name="foo" value="foo"/>
+        </properties>
+    </provider>
+</spi>
 ```
 
 Here we have two providers defined for the SPI `myspi`. The `default-provider` is listed as `myprovider`. However it is up to the SPI to decide how it will treat this setting. Some SPIs allow more than one provider and some do not. So `default-provider` can help the SPI to choose.
@@ -913,7 +1169,14 @@ Also notice that each provider defines its own set of configuration properties. 
 The type of each property value is interpreted by the provider. However, there is one exception. Consider the `jpa` provider for the `eventsStore` SPI:
 
 ```text
-<spi name="eventsStore">    <provider name="jpa" enabled="true">        <properties>            <property name="exclude-events" value="[&quot;EVENT1&quot;,                                                    &quot;EVENT2&quot;]"/>        </properties>    </provider></spi>
+<spi name="eventsStore">
+    <provider name="jpa" enabled="true">
+        <properties>
+            <property name="exclude-events" value="[&quot;EVENT1&quot;,
+                                                    &quot;EVENT2&quot;]"/>
+        </properties>
+    </provider>
+</spi>
 ```
 
 We see that the value begins and ends with square brackets. That means that the value will be passed to the provider as a list. In this example, the system will pass the provider a list with two element values _EVENT1_ and _EVENT2_. To add more values to the list, just separate each list element with a comma. Unfortunately, you do need to escape the quotes surrounding each list element with `&quot;`.
@@ -943,7 +1206,9 @@ This will bring you to a prompt like this:Prompt
 If you wish to execute commands on a running server, you will first execute the `connect` command.connect
 
 ```text
-[disconnected /] connectconnect[standalone@localhost:9990 /]
+[disconnected /] connect
+connect
+[standalone@localhost:9990 /]
 ```
 
 You may be thinking to yourself, "I didn’t enter in any username or password!". If you run `jboss-cli` on the same machine as your running standalone server or domain controller and your account has appropriate file permissions, you do not have to setup or enter in an admin username and password. See the [_WildFly 17 Documentation_](http://docs.wildfly.org/17/Admin_Guide.html) for more details on how to make things more secure if you are uncomfortable with that setup.
@@ -953,7 +1218,8 @@ You may be thinking to yourself, "I didn’t enter in any username or password!"
 If you do happen to be on the same machine as your standalone server and you want to issue commands while the server is not active, you can embed the server into CLI and make changes in a special mode that disallows incoming requests. To do this, first execute the `embed-server` command with the config file you wish to change.embed-server
 
 ```text
-[disconnected /] embed-server --server-config=standalone.xml[standalone@embedded /]
+[disconnected /] embed-server --server-config=standalone.xml
+[standalone@embedded /]
 ```
 
 ### 4.4. CLI GUI Mode
@@ -975,7 +1241,8 @@ After launching GUI mode, you will probably want to scroll down to find the node
 The CLI has extensive scripting capabilities. A script is just a text file with CLI commands in it. Consider a simple script that turns off theme and template caching.turn-off-caching.cli
 
 ```text
-/subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheThemes,value=false)/subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheTemplates,value=false)
+/subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheThemes,value=false)
+/subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheTemplates,value=false)
 ```
 
 To execute the script, I can follow the `Scripts` menu in CLI GUI, or execute the script from the command line as follows:
@@ -1015,7 +1282,8 @@ For domain mode, this would mean something like:
 ### **4.6.3. Add a new SPI and a provider**
 
 ```text
-**/spi=mySPI/:add**/spi=mySPI/provider=myProvider/:add(enabled=true)
+**/spi=mySPI/:add
+**/spi=mySPI/provider=myProvider/:add(enabled=true)
 ```
 
 ### **4.6.4. Disable a provider**
@@ -1033,7 +1301,8 @@ For domain mode, this would mean something like:
 ### **4.6.6. Configure the dblock SPI**
 
 ```text
-**/spi=dblock/:add(default-provider=jpa)**/spi=dblock/provider=jpa/:add(properties={lockWaitTimeout => "900"},enabled=true)
+**/spi=dblock/:add(default-provider=jpa)
+**/spi=dblock/provider=jpa/:add(properties={lockWaitTimeout => "900"},enabled=true)
 ```
 
 ### **4.6.7. Add or change a single property value for a provider**
@@ -1145,7 +1414,18 @@ Within the _…​/modules/_ directory of your Keycloak distribution, you need t
 After you have done this, open up the _module.xml_ file and create the following XML:Module XML
 
 ```text
-<?xml version="1.0" ?><module xmlns="urn:jboss:module:1.3" name="org.postgresql">    <resources>        <resource-root path="postgresql-9.4.1212.jar"/>    </resources>    <dependencies>        <module name="javax.api"/>        <module name="javax.transaction.api"/>    </dependencies></module>
+<?xml version="1.0" ?>
+<module xmlns="urn:jboss:module:1.3" name="org.postgresql">
+
+    <resources>
+        <resource-root path="postgresql-9.4.1212.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="javax.api"/>
+        <module name="javax.transaction.api"/>
+    </dependencies>
+</module>
 ```
 
 The module name should match the directory structure of your module. So, _org/postgresql_ maps to `org.postgresql`. The `resource-root path` attribute should specify the JAR filename of the driver. The rest are just the normal dependencies that any JDBC driver JAR would have.
@@ -1157,13 +1437,34 @@ The next thing you have to do is declare your newly packaged JDBC driver into yo
 Within the profile, search for the `drivers` XML block within the `datasources` subsystem. You should see a pre-defined driver declared for the H2 JDBC driver. This is where you’ll declare the JDBC driver for your external database.JDBC Drivers
 
 ```text
-  <subsystem xmlns="urn:jboss:domain:datasources:5.0">     <datasources>       ...       <drivers>          <driver name="h2" module="com.h2database.h2">              <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>          </driver>       </drivers>     </datasources>  </subsystem>
+  <subsystem xmlns="urn:jboss:domain:datasources:5.0">
+     <datasources>
+       ...
+       <drivers>
+          <driver name="h2" module="com.h2database.h2">
+              <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+          </driver>
+       </drivers>
+     </datasources>
+  </subsystem>
 ```
 
 Within the `drivers` XML block you’ll need to declare an additional JDBC driver. It needs to have a `name` which you can choose to be anything you want. You specify the `module` attribute which points to the `module` package you created earlier for the driver JAR. Finally you have to specify the driver’s Java class. Here’s an example of installing PostgreSQL driver that lives in the module example defined earlier in this chapter.Declare Your JDBC Drivers
 
 ```text
-  ​<subsystem xmlns="urn:jboss:domain:datasources:5.0">    ​<datasources>      ​...      ​<drivers>         ​<driver name="postgresql" module="org.postgresql">             ​<xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>         ​</driver>         ​<driver name="h2" module="com.h2database.h2">             ​<xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>         ​</driver>      ​</drivers>    ​</datasources> ​</subsystem
+  ​<subsystem xmlns="urn:jboss:domain:datasources:5.0">
+    ​<datasources>
+      ​...
+      ​<drivers>
+         ​<driver name="postgresql" module="org.postgresql">
+             ​<xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+         ​</driver>
+         ​<driver name="h2" module="com.h2database.h2">
+             ​<xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+         ​</driver>
+      ​</drivers>
+    ​</datasources>
+ ​</subsystem
 ```
 
 
@@ -1173,7 +1474,23 @@ Within the `drivers` XML block you’ll need to declare an additional JDBC drive
 After declaring your JDBC driver, you have to modify the existing datasource configuration that Keycloak uses to connect it to your new external database. You’ll do this within the same configuration file and XML block that you registered your JDBC driver in. Here’s an example that sets up the connection to your new database:Declare Your JDBC Drivers
 
 ```text
-  <subsystem xmlns="urn:jboss:domain:datasources:5.0">     <datasources>       ...       <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">           <connection-url>jdbc:postgresql://localhost/keycloak</connection-url>           <driver>postgresql</driver>           <pool>               <max-pool-size>20</max-pool-size>           </pool>           <security>               <user-name>William</user-name>               <password>password</password>           </security>       </datasource>        ...     </datasources>  </subsystem>
+  <subsystem xmlns="urn:jboss:domain:datasources:5.0">
+     <datasources>
+       ...
+       <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
+           <connection-url>jdbc:postgresql://localhost/keycloak</connection-url>
+           <driver>postgresql</driver>
+           <pool>
+               <max-pool-size>20</max-pool-size>
+           </pool>
+           <security>
+               <user-name>William</user-name>
+               <password>password</password>
+           </security>
+       </datasource>
+        ...
+     </datasources>
+  </subsystem>
 ```
 
 Search for the `datasource` definition for `KeycloakDS`. You’ll first need to modify the `connection-url`. The documentation for your vendor’s JDBC implementation should specify the format for this connection URL value.
@@ -1191,7 +1508,20 @@ Finally, with PostgreSQL at least, you need to define the database username and 
 The configuration for this component is found in the `standalone.xml`, `standalone-ha.xml`, or `domain.xml` file in your distribution. The location of this file depends on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode).Database Config
 
 ```text
-<subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">    ...    <spi name="connectionsJpa">     <provider name="default" enabled="true">         <properties>             <property name="dataSource" value="java:jboss/datasources/KeycloakDS"/>             <property name="initializeEmpty" value="false"/>             <property name="migrationStrategy" value="manual"/>             <property name="migrationExport" value="${jboss.home.dir}/keycloak-database-update.sql"/>         </properties>     </provider>    </spi>    ...</subsystem>
+<subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">
+    ...
+    <spi name="connectionsJpa">
+     <provider name="default" enabled="true">
+         <properties>
+             <property name="dataSource" value="java:jboss/datasources/KeycloakDS"/>
+             <property name="initializeEmpty" value="false"/>
+             <property name="migrationStrategy" value="manual"/>
+             <property name="migrationExport" value="${jboss.home.dir}/keycloak-database-update.sql"/>
+         </properties>
+     </provider>
+    </spi>
+    ...
+</subsystem>
 ```
 
 Possible configuration options are:dataSource
@@ -1278,7 +1608,14 @@ Alternatively, if you don’t want to set the bind address at the command line, 
 
 
 ```text
- <interfaces>        <interface name="management">            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>        </interface>        <interface name="public">            <inet-address value="${jboss.bind.address:127.0.0.1}"/>        </interface>    </interfaces>
+ <interfaces>
+        <interface name="management">
+            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+        </interface>
+        <interface name="public">
+            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+        </interface>
+    </interfaces>
 ```
 
 The `public` interface corresponds to subsystems creating sockets that are available publicly. An example of one of these subsystems is the web layer which serves up the authentication endpoints of Keycloak. The `management` interface corresponds to sockets opened up by the management layer of the WildFly. Specifically the sockets which allow you to use the `jboss-cli.sh` command line interface and the WildFly web console.
@@ -1302,7 +1639,18 @@ The `-b` is just a shorthand notation for this command. So, you can either chang
 The ports opened for each socket have a pre-defined default that can be overridden at the command line or within configuration. To illustrate this configuration, let’s pretend you are running in [standalone mode](https://www.keycloak.org/docs/7.0/server_installation/#_standalone-mode) and open up the _…​/standalone/configuration/standalone.xml_. Search for `socket-binding-group`.
 
 ```text
-    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>        <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>        <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>        <socket-binding name="http" port="${jboss.http.port:8080}"/>        <socket-binding name="https" port="${jboss.https.port:8443}"/>        <socket-binding name="txn-recovery-environment" port="4712"/>        <socket-binding name="txn-status-manager" port="4713"/>        <outbound-socket-binding name="mail-smtp">            <remote-destination host="localhost" port="25"/>        </outbound-socket-binding>    </socket-binding-group>
+    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
+        <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
+        <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
+        <socket-binding name="http" port="${jboss.http.port:8080}"/>
+        <socket-binding name="https" port="${jboss.https.port:8443}"/>
+        <socket-binding name="txn-recovery-environment" port="4712"/>
+        <socket-binding name="txn-status-manager" port="4713"/>
+        <outbound-socket-binding name="mail-smtp">
+            <remote-destination host="localhost" port="25"/>
+        </outbound-socket-binding>
+    </socket-binding-group>
 ```
 
 `socket-bindings` define socket connections that will be opened by the server. These bindings specify the `interface` \(bind address\) they use as well as what port number they will open. The ones you will be most interested in are:
@@ -1320,7 +1668,16 @@ When running in [domain mode](https://www.keycloak.org/docs/7.0/server_installat
 domain socket bindings
 
 ```text
-    ​<server-groups>       ​<server-group name="load-balancer-group" profile="load-balancer">           ​...           ​<socket-binding-group ref="load-balancer-sockets"/>       ​</server-group>       ​<server-group name="auth-server-group" profile="auth-server-clustered">           ​...           ​<socket-binding-group ref="ha-sockets"/>       ​</server-group>   ​</server-groups
+    ​<server-groups>
+       ​<server-group name="load-balancer-group" profile="load-balancer">
+           ​...
+           ​<socket-binding-group ref="load-balancer-sockets"/>
+       ​</server-group>
+       ​<server-group name="auth-server-group" profile="auth-server-clustered">
+           ​...
+           ​<socket-binding-group ref="ha-sockets"/>
+       ​</server-group>
+   ​</server-groups
 ```
 
 |   There are many more options available when setting up `socket-binding-group` definitions. For more information, see [the socket binding group](http://docs.wildfly.org/17/Admin_Guide.html#Interfaces_and_ports) in the _WildFly 17 Documentation_. |
@@ -1367,7 +1724,23 @@ In order to allow HTTPS connections, you need to obtain a self signed or third-p
 In development, you will probably not have a third party signed certificate available to test a Keycloak deployment so you’ll need to generate a self-signed one using the `keytool` utility that comes with the Java JDK.
 
 ```text
-$ keytool -genkey -alias localhost -keyalg RSA -keystore keycloak.jks -validity 10950    Enter keystore password: secret    Re-enter new password: secret    What is your first and last name?    [Unknown]:  localhost    What is the name of your organizational unit?    [Unknown]:  Keycloak    What is the name of your organization?    [Unknown]:  Red Hat    What is the name of your City or Locality?    [Unknown]:  Westford    What is the name of your State or Province?    [Unknown]:  MA    What is the two-letter country code for this unit?    [Unknown]:  US    Is CN=localhost, OU=Keycloak, O=Test, L=Westford, ST=MA, C=US correct?    [no]:  yes
+$ keytool -genkey -alias localhost -keyalg RSA -keystore keycloak.jks -validity 10950
+    Enter keystore password: secret
+    Re-enter new password: secret
+    What is your first and last name?
+    [Unknown]:  localhost
+    What is the name of your organizational unit?
+    [Unknown]:  Keycloak
+    What is the name of your organization?
+    [Unknown]:  Red Hat
+    What is the name of your City or Locality?
+    [Unknown]:  Westford
+    What is the name of your State or Province?
+    [Unknown]:  MA
+    What is the two-letter country code for this unit?
+    [Unknown]:  US
+    Is CN=localhost, OU=Keycloak, O=Test, L=Westford, ST=MA, C=US correct?
+    [no]:  yes
 ```
 
 You should answer `What is your first and last name ?` question with the DNS name of the machine you’re installing the server on. For testing purposes, `localhost` should be used. After executing this command, the `keycloak.jks` file will be generated in the same directory as you executed the `keytool` command in.
@@ -1383,7 +1756,21 @@ $ keytool -certreq -alias yourdomain -keystore keycloak.jks > keycloak.careq
 Where `yourdomain` is a DNS name for which this certificate is generated for. Keytool generates the request:
 
 ```text
------BEGIN NEW CERTIFICATE REQUEST-----MIIC2jCCAcICAQAwZTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAk1BMREwDwYDVQQHEwhXZXN0Zm9yZDEQMA4GA1UEChMHUmVkIEhhdDEQMA4GA1UECxMHUmVkIEhhdDESMBAGA1UEAxMJbG9jYWxob3N0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr7kck2TaavlEOGbcpi9c0rncY4HhdzmYAx2nZfq1eZEaIPqI5aTxwQZzzLDK9qbeAd8Ji79HzSqnRDxNYaZu7mAYhFKHgixsolE3o5Yfzbw129RvyeUVe+WZxv5oo9wolVVpdSINIMEL2LaFhtX/c1dqiqYVpfnvFshZQaIg2nL8juzZcBjj4asH98gIS7khql/dkZKsw9NLvyxgJvp7PaXurX29fNf3ihG+oFrL22oFyV54BWWxXCKU/GPn61EGZGwFt2qSIGLdctpMD1aJR2bcnlhEjZKDksjQZoQ5YMXaAGkcYkG6QkgrocDE2YXDbi7GIdf9MegVJ352DQMpwIDAQABoDAwLgYJKoZIhvcNAQkOMSEwHzAdBgNVHQ4EFgQUQwlZJBA+fjiDdiVzaO9vrE/in2swDQYJKoZIhvcNAQELBQADggEBAC5FRvMkhal3q86tHPBYWBuTtmcSjs4qUm6V6f63frhveWHfPzRrI1xH272XUIeBk0gtzWo0nNZnf0mMCtUBbHhhDcG82xolikfqibZijoQZCiGiedVjHJFtniDQ9bMDUOXEMQ7gHZg5q6mJfNG9MbMpQaUVEEFvfGEQQxbiFK7hRWU8S23/d80e8nExgQxdJWJ6vd0XMzzFK6j4Dj55bJVuM7GFmfdNC52pNOD5vYe47Aqh8oajHX9XTycVtPXl45rrWAH33ftbrS8SrZ2SvqIFQeuLL3BaHwpl3t7j2lMWcK1p80laAxEASib/fAwrRHpLHBXRcq6uALUOZl4Alt8=-----END NEW CERTIFICATE REQUEST-----
+-----BEGIN NEW CERTIFICATE REQUEST-----
+MIIC2jCCAcICAQAwZTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAk1BMREwDwYDVQQHEwhXZXN0Zm9y
+ZDEQMA4GA1UEChMHUmVkIEhhdDEQMA4GA1UECxMHUmVkIEhhdDESMBAGA1UEAxMJbG9jYWxob3N0
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr7kck2TaavlEOGbcpi9c0rncY4HhdzmY
+Ax2nZfq1eZEaIPqI5aTxwQZzzLDK9qbeAd8Ji79HzSqnRDxNYaZu7mAYhFKHgixsolE3o5Yfzbw1
+29RvyeUVe+WZxv5oo9wolVVpdSINIMEL2LaFhtX/c1dqiqYVpfnvFshZQaIg2nL8juzZcBjj4as
+H98gIS7khql/dkZKsw9NLvyxgJvp7PaXurX29fNf3ihG+oFrL22oFyV54BWWxXCKU/GPn61EGZGw
+Ft2qSIGLdctpMD1aJR2bcnlhEjZKDksjQZoQ5YMXaAGkcYkG6QkgrocDE2YXDbi7GIdf9MegVJ35
+2DQMpwIDAQABoDAwLgYJKoZIhvcNAQkOMSEwHzAdBgNVHQ4EFgQUQwlZJBA+fjiDdiVzaO9vrE/i
+n2swDQYJKoZIhvcNAQELBQADggEBAC5FRvMkhal3q86tHPBYWBuTtmcSjs4qUm6V6f63frhveWHf
+PzRrI1xH272XUIeBk0gtzWo0nNZnf0mMCtUBbHhhDcG82xolikfqibZijoQZCiGiedVjHJFtniDQ
+9bMDUOXEMQ7gHZg5q6mJfNG9MbMpQaUVEEFvfGEQQxbiFK7hRWU8S23/d80e8nExgQxdJWJ6vd0X
+MzzFK6j4Dj55bJVuM7GFmfdNC52pNOD5vYe47Aqh8oajHX9XTycVtPXl45rrWAH33ftbrS8SrZ2S
+vqIFQeuLL3BaHwpl3t7j2lMWcK1p80laAxEASib/fAwrRHpLHBXRcq6uALUOZl4Alt8=
+-----END NEW CERTIFICATE REQUEST-----
 ```
 
 Send this ca request to your CA. The CA will issue you a signed certificate and send it to you. Before you import your new cert, you must obtain and import the root certificate of the CA. You can download the cert from CA \(ie.: root.crt\) and import as follows:
@@ -1405,7 +1792,9 @@ Now that you have a Java keystore with the appropriate certificates, you need to
 Add the new `security-realm` element using the CLI:
 
 ```text
-$ /core-service=management/security-realm=UndertowRealm:add()$ /core-service=management/security-realm=UndertowRealm/server-identity=ssl:add(keystore-path=keycloak.jks, keystore-relative-to=jboss.server.config.dir, keystore-password=secret)
+$ /core-service=management/security-realm=UndertowRealm:add()
+
+$ /core-service=management/security-realm=UndertowRealm/server-identity=ssl:add(keystore-path=keycloak.jks, keystore-relative-to=jboss.server.config.dir, keystore-password=secret)
 ```
 
 If using domain mode, the commands should be executed in every host using the `/host=<host_name>/` prefix \(in order to create the `security-realm` in all of them\), like this, which you would repeat for each host:
@@ -1417,7 +1806,13 @@ $ /host=<host_name>/core-service=management/security-realm=UndertowRealm/server-
 In the standalone or host configuration file, the `security-realms` element should look like this:
 
 ```text
-<security-realm name="UndertowRealm">    <server-identities>        <ssl>            <keystore path="keycloak.jks" relative-to="jboss.server.config.dir" keystore-password="secret" />        </ssl>    </server-identities></security-realm>
+<security-realm name="UndertowRealm">
+    <server-identities>
+        <ssl>
+            <keystore path="keycloak.jks" relative-to="jboss.server.config.dir" keystore-password="secret" />
+        </ssl>
+    </server-identities>
+</security-realm>
 ```
 
 Next, in the standalone or each domain configuration file, search for any instances of `security-realm`. Modify the `https-listener` to use the created realm:
@@ -1431,7 +1826,12 @@ If using domain mode, prefix the command with the profile that is being used wit
 The resulting element, `server name="default-server"`, which is a child element of `subsystem xmlns="urn:jboss:domain:undertow:9.0"`, should contain the following stanza:
 
 ```text
-<subsystem xmlns="urn:jboss:domain:undertow:9.0">   <buffer-cache name="default"/>   <server name="default-server">      <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>   ...</subsystem>
+<subsystem xmlns="urn:jboss:domain:undertow:9.0">
+   <buffer-cache name="default"/>
+   <server name="default-server">
+      <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>
+   ...
+</subsystem>
 ```
 
 ### 7.4. Outgoing HTTP Requests
@@ -1439,7 +1839,13 @@ The resulting element, `server name="default-server"`, which is a child element 
 The Keycloak server often needs to make non-browser HTTP requests to the applications and services it secures. The auth server manages these outgoing connections by maintaining an HTTP client connection pool. There are some things you’ll need to configure in `standalone.xml`, `standalone-ha.xml`, or `domain.xml`. The location of this file depends on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode).HTTP client Config example
 
 ```text
-<spi name="connectionsHttpClient">    <provider name="default" enabled="true">        <properties>            <property name="connection-pool-size" value="256"/>        </properties>    </provider></spi>
+<spi name="connectionsHttpClient">
+    <provider name="default" enabled="true">
+        <properties>
+            <property name="connection-pool-size" value="256"/>
+        </properties>
+    </provider>
+</spi>
 ```
 
 Possible configuration options are:establish-connection-timeout-millis
@@ -1481,19 +1887,40 @@ The special value `NO_PROXY` for the proxy-uri can be used to indicate that no p
 The following example demonstrates the proxy-mapping configuration.
 
 ```text
-# All requests to Google APIs should use http://www-proxy.acme.com:8080 as proxy.*\.(google|googleapis)\.com;http://www-proxy.acme.com:8080# All requests to internal systems should use no proxy.*\.acme\.com;NO_PROXY# All other requests should use http://fallback:8080 as proxy.*;http://fallback:8080
+# All requests to Google APIs should use http://www-proxy.acme.com:8080 as proxy
+.*\.(google|googleapis)\.com;http://www-proxy.acme.com:8080
+
+# All requests to internal systems should use no proxy
+.*\.acme\.com;NO_PROXY
+
+# All other requests should use http://fallback:8080 as proxy
+.*;http://fallback:8080
 ```
 
 This can be configured via the following `jboss-cli` command. Note that you need to properly escape the regex-pattern as shown below.
 
 ```text
-echo SETUP: Configure proxy routes for HttpClient SPI# In case there is no connectionsHttpClient definition yet/subsystem=keycloak-server/spi=connectionsHttpClient/provider=default:add(enabled=true)# Configure the proxy-mappings/subsystem=keycloak-server/spi=connectionsHttpClient/provider=default:write-attribute(name=properties.proxy-mappings,value=[".*\\.(google|googleapis)\\.com;http://www-proxy.acme.com:8080",".*\\.acme\\.com;NO_PROXY",".*;http://fallback:8080"])
+echo SETUP: Configure proxy routes for HttpClient SPI
+
+# In case there is no connectionsHttpClient definition yet
+/subsystem=keycloak-server/spi=connectionsHttpClient/provider=default:add(enabled=true)
+
+# Configure the proxy-mappings
+/subsystem=keycloak-server/spi=connectionsHttpClient/provider=default:write-attribute(name=properties.proxy-mappings,value=[".*\\.(google|googleapis)\\.com;http://www-proxy.acme.com:8080",".*\\.acme\\.com;NO_PROXY",".*;http://fallback:8080"])
 ```
 
 The `jboss-cli` command results in the following subsystem configuration. Note that one needs to encode `"` characters with `&quot;`.
 
 ```text
-<spi name="connectionsHttpClient">    <provider name="default" enabled="true">        <properties>            <property            name="proxy-mappings"            value="[&quot;.*\\.(google|googleapis)\\.com;http://www-proxy.acme.com:8080&quot;,&quot;.*\\.acme\\.com;NO_PROXY&quot;,&quot;.*;http://fallback:8080&quot;]"/>        </properties>    </provider></spi>
+<spi name="connectionsHttpClient">
+    <provider name="default" enabled="true">
+        <properties>
+            <property
+            name="proxy-mappings"
+            value="[&quot;.*\\.(google|googleapis)\\.com;http://www-proxy.acme.com:8080&quot;,&quot;.*\\.acme\\.com;NO_PROXY&quot;,&quot;.*;http://fallback:8080&quot;]"/>
+        </properties>
+    </provider>
+</spi>
 ```
 
 #### **7.4.2. Outgoing HTTPS Request Truststore**
@@ -1515,7 +1942,16 @@ $ keytool -import -alias HOSTDOMAIN -keystore truststore.jks -file host-certific
 The truststore is configured within the `standalone.xml`, `standalone-ha.xml`, or `domain.xml` file in your distribution. The location of this file depends on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode). You can add your truststore configuration by using the following template:
 
 ```text
-<spi name="truststore">    <provider name="file" enabled="true">        <properties>            <property name="file" value="path to your .jks file containing public certificates"/>            <property name="password" value="password"/>            <property name="hostname-verification-policy" value="WILDCARD"/>            <property name="disabled" value="false"/>        </properties>    </provider></spi>
+<spi name="truststore">
+    <provider name="file" enabled="true">
+        <properties>
+            <property name="file" value="path to your .jks file containing public certificates"/>
+            <property name="password" value="password"/>
+            <property name="hostname-verification-policy" value="WILDCARD"/>
+            <property name="disabled" value="false"/>
+        </properties>
+    </provider>
+</spi>
 ```
 
 Possible configuration options for this setting are:
@@ -1587,7 +2023,16 @@ Configuring your proxy to generate the `X-Forwarded-For` and `X-Forwarded-Proto`
 Beyond the proxy itself, there are a few things you need to configure on the Keycloak side of things. If your proxy is forwarding requests via the HTTP protocol, then you need to configure Keycloak to pull the client’s IP address from the `X-Forwarded-For` header rather than from the network packet. To do this, open up the profile configuration file \(_standalone.xml_, _standalone-ha.xml_, or _domain.xml_ depending on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode)\) and look for the `urn:jboss:domain:undertow:9.0` XML block.`X-Forwarded-For` HTTP Config
 
 ```text
-<subsystem xmlns="urn:jboss:domain:undertow:9.0">   <buffer-cache name="default"/>   <server name="default-server">      <ajp-listener name="ajp" socket-binding="ajp"/>      <http-listener name="default" socket-binding="http" redirect-socket="https"          proxy-address-forwarding="true"/>      ...   </server>   ...</subsystem>
+<subsystem xmlns="urn:jboss:domain:undertow:9.0">
+   <buffer-cache name="default"/>
+   <server name="default-server">
+      <ajp-listener name="ajp" socket-binding="ajp"/>
+      <http-listener name="default" socket-binding="http" redirect-socket="https"
+          proxy-address-forwarding="true"/>
+      ...
+   </server>
+   ...
+</subsystem>
 ```
 
 Add the `proxy-address-forwarding` attribute to the `http-listener` element. Set the value to `true`.
@@ -1595,7 +2040,24 @@ Add the `proxy-address-forwarding` attribute to the `http-listener` element. Set
 If your proxy is using the AJP protocol instead of HTTP to forward requests \(i.e. Apache HTTPD + mod-cluster\), then you have to configure things a little differently. Instead of modifying the `http-listener`, you need to add a filter to pull this information from the AJP packets.`X-Forwarded-For` AJP Config
 
 ```text
-<subsystem xmlns="urn:jboss:domain:undertow:9.0">     <buffer-cache name="default"/>     <server name="default-server">         <ajp-listener name="ajp" socket-binding="ajp"/>         <http-listener name="default" socket-binding="http" redirect-socket="https"/>         <host name="default-host" alias="localhost">             ...             <filter-ref name="proxy-peer"/>         </host>     </server>        ...     <filters>         ...         <filter name="proxy-peer"                 class-name="io.undertow.server.handlers.ProxyPeerAddressHandler"                 module="io.undertow.core" />     </filters> </subsystem>
+<subsystem xmlns="urn:jboss:domain:undertow:9.0">
+     <buffer-cache name="default"/>
+     <server name="default-server">
+         <ajp-listener name="ajp" socket-binding="ajp"/>
+         <http-listener name="default" socket-binding="http" redirect-socket="https"/>
+         <host name="default-host" alias="localhost">
+             ...
+             <filter-ref name="proxy-peer"/>
+         </host>
+     </server>
+        ...
+     <filters>
+         ...
+         <filter name="proxy-peer"
+                 class-name="io.undertow.server.handlers.ProxyPeerAddressHandler"
+                 module="io.undertow.core" />
+     </filters>
+ </subsystem>
 ```
 
 #### **8.3.2. Enable HTTPS/SSL with a Reverse Proxy**
@@ -1603,7 +2065,12 @@ If your proxy is using the AJP protocol instead of HTTP to forward requests \(i.
 Assuming that your reverse proxy doesn’t use port 8443 for SSL you also need to configure what port HTTPS traffic is redirected to.
 
 ```text
-<subsystem xmlns="urn:jboss:domain:undertow:9.0">    ...    <http-listener name="default" socket-binding="http"        proxy-address-forwarding="true" redirect-socket="proxy-https"/>    ...</subsystem>
+<subsystem xmlns="urn:jboss:domain:undertow:9.0">
+    ...
+    <http-listener name="default" socket-binding="http"
+        proxy-address-forwarding="true" redirect-socket="proxy-https"/>
+    ...
+</subsystem>
 ```
 
 Add the `redirect-socket` attribute to the `http-listener` element. The value should be `proxy-https` which points to a socket binding you also need to define.
@@ -1611,7 +2078,12 @@ Add the `redirect-socket` attribute to the `http-listener` element. The value sh
 Then add a new `socket-binding` element to the `socket-binding-group` element:
 
 ```text
-<socket-binding-group name="standard-sockets" default-interface="public"    port-offset="${jboss.socket.binding.port-offset:0}">    ...    <socket-binding name="proxy-https" port="443"/>    ...</socket-binding-group>
+<socket-binding-group name="standard-sockets" default-interface="public"
+    port-offset="${jboss.socket.binding.port-offset:0}">
+    ...
+    <socket-binding name="proxy-https" port="443"/>
+    ...
+</socket-binding-group>
 ```
 
 #### **8.3.3. Verify Configuration**
@@ -1641,7 +2113,17 @@ The [Clustered Domain Example](https://www.keycloak.org/docs/7.0/server_installa
 Let’s look first at registering the new host slave with the load balancer configuration in _domain.xml_. Open this file and go to the undertow configuration in the `load-balancer` profile. Add a new `host` definition called `remote-host3` within the `reverse-proxy` XML block.domain.xml reverse-proxy config
 
 ```text
-<subsystem xmlns="urn:jboss:domain:undertow:9.0">  ...  <handlers>      <reverse-proxy name="lb-handler">         <host name="host1" outbound-socket-binding="remote-host1" scheme="ajp" path="/" instance-id="myroute1"/>         <host name="host2" outbound-socket-binding="remote-host2" scheme="ajp" path="/" instance-id="myroute2"/>         <host name="remote-host3" outbound-socket-binding="remote-host3" scheme="ajp" path="/" instance-id="myroute3"/>      </reverse-proxy>  </handlers>  ...</subsystem>
+<subsystem xmlns="urn:jboss:domain:undertow:9.0">
+  ...
+  <handlers>
+      <reverse-proxy name="lb-handler">
+         <host name="host1" outbound-socket-binding="remote-host1" scheme="ajp" path="/" instance-id="myroute1"/>
+         <host name="host2" outbound-socket-binding="remote-host2" scheme="ajp" path="/" instance-id="myroute2"/>
+         <host name="remote-host3" outbound-socket-binding="remote-host3" scheme="ajp" path="/" instance-id="myroute3"/>
+      </reverse-proxy>
+  </handlers>
+  ...
+</subsystem>
 ```
 
 The `output-socket-binding` is a logical name pointing to a `socket-binding` configured later in the _domain.xml_ file. The `instance-id` attribute must also be unique to the new host as this value is used by a cookie to enable sticky sessions when load balancing.
@@ -1649,7 +2131,18 @@ The `output-socket-binding` is a logical name pointing to a `socket-binding` con
 Next go down to the `load-balancer-sockets` `socket-binding-group` and add the `outbound-socket-binding` for `remote-host3`. This new binding needs to point to the host and port of the new host.domain.xml outbound-socket-binding
 
 ```text
-<socket-binding-group name="load-balancer-sockets" default-interface="public">    ...    <outbound-socket-binding name="remote-host1">        <remote-destination host="localhost" port="8159"/>    </outbound-socket-binding>    <outbound-socket-binding name="remote-host2">        <remote-destination host="localhost" port="8259"/>    </outbound-socket-binding>    <outbound-socket-binding name="remote-host3">        <remote-destination host="192.168.0.5" port="8259"/>    </outbound-socket-binding></socket-binding-group>
+<socket-binding-group name="load-balancer-sockets" default-interface="public">
+    ...
+    <outbound-socket-binding name="remote-host1">
+        <remote-destination host="localhost" port="8159"/>
+    </outbound-socket-binding>
+    <outbound-socket-binding name="remote-host2">
+        <remote-destination host="localhost" port="8259"/>
+    </outbound-socket-binding>
+    <outbound-socket-binding name="remote-host3">
+        <remote-destination host="192.168.0.5" port="8259"/>
+    </outbound-socket-binding>
+</socket-binding-group>
 ```
 
 **Master Bind Addresses**
@@ -1665,7 +2158,10 @@ $ domain.sh --host-config=host-master.xml -Djboss.bind.address=192.168.0.2 -Djbo
 Next you’ll have to change the `public`, `management`, and domain controller bind addresses \(`jboss.domain.master-address`\). Either edit the _host-slave.xml_ file or specify them on the command line as follows:
 
 ```text
-$ domain.sh --host-config=host-slave.xml     -Djboss.bind.address=192.168.0.5      -Djboss.bind.address.management=192.168.0.5       -Djboss.domain.master.address=192.168.0.2
+$ domain.sh --host-config=host-slave.xml
+     -Djboss.bind.address=192.168.0.5
+      -Djboss.bind.address.management=192.168.0.5
+       -Djboss.domain.master.address=192.168.0.2
 ```
 
 The values of `jboss.bind.address` and `jboss.bind.addres.management` pertain to the host slave’s IP address. The value of `jboss.domain.master.address` need to be the IP address of the domain controller which is the management address of the master host.
@@ -1698,7 +2194,8 @@ The sticky session is not mandatory for the cluster setup, however it is good fo
 It is recommended on the Keycloak side to use the system property `jboss.node.name` during startup, with the value corresponding to the name of your route. For example, `-Djboss.node.name=node1` will use `node1` to identify the route. This route will be used by Infinispan caches and will be attached to the AUTH\_SESSION\_ID cookie when the node is the owner of the particular key. Here is an example of the start up command using this system property:
 
 ```text
-cd $RHSSO_NODE1./standalone.sh -c standalone-ha.xml -Djboss.socket.binding.port-offset=100 -Djboss.node.name=node1
+cd $RHSSO_NODE1
+./standalone.sh -c standalone-ha.xml -Djboss.socket.binding.port-offset=100 -Djboss.node.name=node1
 ```
 
 Typically in production environment the route name should use the same name as your backend host, but it is not required. You can use a different route name. For example, if you want to hide the host name of your Keycloak server inside your private network.
@@ -1710,7 +2207,17 @@ Some load balancers can be configured to add the route information by themselves
 You are permitted to disable adding route information to the AUTH\_SESSION\_ID cookie by Keycloak, if you prefer, by adding the following into your `RHSSO_HOME/standalone/configuration/standalone-ha.xml` file in the Keycloak subsystem configuration:
 
 ```text
-<subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">  ...    <spi name="stickySessionEncoder">        <provider name="infinispan" enabled="true">            <properties>                <property name="shouldAttachRoute" value="false"/>            </properties>        </provider>    </spi></subsystem>
+<subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">
+  ...
+    <spi name="stickySessionEncoder">
+        <provider name="infinispan" enabled="true">
+            <properties>
+                <property name="shouldAttachRoute" value="false"/>
+            </properties>
+        </provider>
+    </spi>
+
+</subsystem>
 ```
 
 ### 8.5. Multicast Network Setup
@@ -1720,7 +2227,22 @@ Out of the box clustering support needs IP Multicast. Multicast is a network bro
 The clustering subsystem for Keycloak runs on the JGroups stack. Out of the box, the bind addresses for clustering are bound to a private network interface with 127.0.0.1 as default IP address. You have to edit your the _standalone-ha.xml_ or _domain.xml_ sections discussed in the [Bind Address](https://www.keycloak.org/docs/7.0/server_installation/#_bind-address) chapter.private network config
 
 ```text
-    <interfaces>        ...        <interface name="private">            <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>        </interface>    </interfaces>    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">        ...        <socket-binding name="jgroups-mping" interface="private" port="0" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45700"/>        <socket-binding name="jgroups-tcp" interface="private" port="7600"/>        <socket-binding name="jgroups-tcp-fd" interface="private" port="57600"/>        <socket-binding name="jgroups-udp" interface="private" port="55200" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45688"/>        <socket-binding name="jgroups-udp-fd" interface="private" port="54200"/>        <socket-binding name="modcluster" port="0" multicast-address="224.0.1.105" multicast-port="23364"/>        ...    </socket-binding-group>
+    <interfaces>
+        ...
+        <interface name="private">
+            <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>
+        </interface>
+    </interfaces>
+    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+        ...
+        <socket-binding name="jgroups-mping" interface="private" port="0" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45700"/>
+        <socket-binding name="jgroups-tcp" interface="private" port="7600"/>
+        <socket-binding name="jgroups-tcp-fd" interface="private" port="57600"/>
+        <socket-binding name="jgroups-udp" interface="private" port="55200" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45688"/>
+        <socket-binding name="jgroups-udp-fd" interface="private" port="54200"/>
+        <socket-binding name="modcluster" port="0" multicast-address="224.0.1.105" multicast-port="23364"/>
+        ...
+    </socket-binding-group>
 ```
 
 Things you’ll want to configure are the `jboss.bind.address.private` and `jboss.default.multicast.address` as well as the ports of the services on the clustering stack.
@@ -1742,7 +2264,13 @@ Keycloak cluster nodes are allowed to boot concurrently. When Keycloak server in
 By default, the maximum timeout for this lock is 900 seconds. If a node is waiting on this lock for more than the timeout it will fail to boot. Typically you won’t need to increase/decrease the default value, but just in case it’s possible to configure it in `standalone.xml`, `standalone-ha.xml`, or `domain.xml` file in your distribution. The location of this file depends on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode).
 
 ```text
-<spi name="dblock">    <provider name="jpa" enabled="true">        <properties>            <property name="lockWaitTimeout" value="900"/>        </properties>    </provider></spi>
+<spi name="dblock">
+    <provider name="jpa" enabled="true">
+        <properties>
+            <property name="lockWaitTimeout" value="900"/>
+        </properties>
+    </provider>
+</spi>
 ```
 
 ### 8.8. Booting the Cluster
@@ -1756,7 +2284,8 @@ $ bin/standalone.sh --server-config=standalone-ha.xml
 Domain Mode
 
 ```text
-$ bin/domain.sh --host-config=host-master.xml$ bin/domain.sh --host-config=host-slave.xml
+$ bin/domain.sh --host-config=host-master.xml
+$ bin/domain.sh --host-config=host-slave.xml
 ```
 
 You may need to use additional parameters or system properties. For example, the parameter `-b` for the binding host or the system property `jboss.node.name` to specify the name of the route, as described in [Sticky Sessions](https://www.keycloak.org/docs/7.0/server_installation/#sticky-sessions) section.
@@ -1768,7 +2297,8 @@ You may need to use additional parameters or system properties. For example, the
 * Note that when you run a cluster, you should see message similar to this in the log of both cluster nodes:
 
   ```text
-  INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (Incoming-10,shared=udp)ISPN000094: Received new cluster view: [node1/keycloak|1] (2) [node1/keycloak, node2/keycloak]
+  INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (Incoming-10,shared=udp)
+  ISPN000094: Received new cluster view: [node1/keycloak|1] (2) [node1/keycloak, node2/keycloak]
   ```
 
   If you see just one node mentioned, it’s possible that your cluster hosts are not joined together.
@@ -1792,7 +2322,21 @@ There are multiple different caches configured for Keycloak. There is a realm ca
 The eviction policy and max entries for these caches can be configured in the _standalone.xml_, _standalone-ha.xml_, or _domain.xml_ depending on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode). In the configuration file, there is the part with infinispan subsystem, which looks similar to this:
 
 ```text
-<subsystem xmlns="urn:jboss:domain:infinispan:8.0">    <cache-container name="keycloak">        <local-cache name="realms">            <object-memory size="10000"/>        </local-cache>        <local-cache name="users">            <object-memory size="10000"/>        </local-cache>        ...        <local-cache name="keys">            <object-memory size="1000"/>            <expiration max-idle="3600000"/>        </local-cache>        ...    </cache-container>
+<subsystem xmlns="urn:jboss:domain:infinispan:8.0">
+    <cache-container name="keycloak">
+        <local-cache name="realms">
+            <object-memory size="10000"/>
+        </local-cache>
+        <local-cache name="users">
+            <object-memory size="10000"/>
+        </local-cache>
+        ...
+        <local-cache name="keys">
+            <object-memory size="1000"/>
+            <expiration max-idle="3600000"/>
+        </local-cache>
+        ...
+    </cache-container>
 ```
 
 To limit or expand the number of allowed entries simply add or edit the `object` element or the `expiration` element of particular cache configuration.
@@ -1814,7 +2358,10 @@ There are caches like `sessions`, `authenticationSessions`, `offlineSessions`, `
 You can change the number of nodes that replicate a piece of data by change the `owners` attribute in the `distributed-cache` declaration.owners
 
 ```text
-<subsystem xmlns="urn:jboss:domain:infinispan:8.0">   <cache-container name="keycloak">       <distributed-cache name="sessions" owners="2"/>...
+<subsystem xmlns="urn:jboss:domain:infinispan:8.0">
+   <cache-container name="keycloak">
+       <distributed-cache name="sessions" owners="2"/>
+...
 ```
 
 Here we’ve changed it so at least two nodes will replicate one specific user login session.
@@ -1832,7 +2379,13 @@ Here we’ve changed it so at least two nodes will replicate one specific user l
 To disable the realm or user cache, you must edit the `standalone.xml`, `standalone-ha.xml`, or `domain.xml` file in your distribution. The location of this file depends on your [operating mode](https://www.keycloak.org/docs/7.0/server_installation/#_operating-mode). Here’s what the config looks like initially.
 
 ```text
-    <spi name="userCache">        <provider name="default" enabled="true"/>    </spi>    <spi name="realmCache">        <provider name="default" enabled="true"/>    </spi>
+    <spi name="userCache">
+        <provider name="default" enabled="true"/>
+    </spi>
+
+    <spi name="realmCache">
+        <provider name="default" enabled="true"/>
+    </spi>
 ```
 
 To disable the cache set the `enabled` attribute to false for the cache you want to disable. You must reboot your server for this change to take effect.

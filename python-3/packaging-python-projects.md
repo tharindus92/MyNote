@@ -13,7 +13,9 @@ This tutorial uses a simple project named `example_pkg`. If you are unfamiliar w
 To create this project locally, create the following file structure:
 
 ```text
-/packaging_tutorial  /example_pkg    __init__.py
+/packaging_tutorial
+  /example_pkg
+    __init__.py
 ```
 
 Once you create this structure, you’ll want to run all of the commands in this tutorial within the top-level folder - so be sure to `cd packaging_tutorial`.
@@ -31,7 +33,12 @@ This is just so that you can verify that it installed correctly later in this tu
 You will now create a handful of files to package up this project and prepare it for distribution. Create the new files listed below - you will add content to them in the following steps.
 
 ```text
-/packaging_tutorial  /example_pkg    __init__.py  setup.py  LICENSE  README.md
+/packaging_tutorial
+  /example_pkg
+    __init__.py
+  setup.py
+  LICENSE
+  README.md
 ```
 
 ### Creating setup.py
@@ -41,7 +48,27 @@ You will now create a handful of files to package up this project and prepare it
 Open `setup.py` and enter the following content. Update the package name to include your username \(for example, `example-pkg-theacodes`\), this ensures that you have a unique package name and that your package doesn’t conflict with packages uploaded by other people following this tutorial.
 
 ```text
-import setuptoolswith open("README.md", "r") as fh:    long_description = fh.read()setuptools.setup(    name="example-pkg-your-username",    version="0.0.1",    author="Example Author",    author_email="author@example.com",    description="A small example package",    long_description=long_description,    long_description_content_type="text/markdown",    url="https://github.com/pypa/sampleproject",    packages=setuptools.find_packages(),    classifiers=[        "Programming Language :: Python :: 3",        "License :: OSI Approved :: MIT License",        "Operating System :: OS Independent",    ],)
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="example-pkg-your-username",
+    version="0.0.1",
+    author="Example Author",
+    author_email="author@example.com",
+    description="A small example package",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/pypa/sampleproject",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+)
 ```
 
 `setup()` takes several arguments. This example package uses a relatively minimal set:
@@ -63,7 +90,11 @@ There are many more than the ones mentioned here. See [Packaging and distributin
 Open `README.md` and enter the following content. You can customize this if you’d like.
 
 ```text
-# Example PackageThis is a simple example package. You can use[Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)to write your content.
+# Example Package
+
+This is a simple example package. You can use
+[Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
+to write your content.
 ```
 
 ### Creating a LICENSE
@@ -71,7 +102,25 @@ Open `README.md` and enter the following content. You can customize this if you�
 It’s important for every package uploaded to the Python Package Index to include a license. This tells users who install your package the terms under which they can use your package. For help picking a license, see[https://choosealicense.com/](https://choosealicense.com/). Once you have chosen a license, open `LICENSE` and enter the license text. For example, if you had chosen the MIT license:
 
 ```text
-Copyright (c) 2018 The Python Packaging AuthorityPermission is hereby granted, free of charge, to any person obtaining a copyof this software and associated documentation files (the "Software"), to dealin the Software without restriction, including without limitation the rightsto use, copy, modify, merge, publish, distribute, sublicense, and/or sellcopies of the Software, and to permit persons to whom the Software isfurnished to do so, subject to the following conditions:The above copyright notice and this permission notice shall be included in allcopies or substantial portions of the Software.THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ORIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THEAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHERLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THESOFTWARE.
+Copyright (c) 2018 The Python Packaging Authority
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 ### Generating distribution archives
@@ -97,7 +146,9 @@ python3 setup.py sdist bdist_wheel
 This command should output a lot of text and once completed should generate two files in the `dist` directory:
 
 ```text
-dist/  example_pkg_your_username-0.0.1-py3-none-any.whl  example_pkg_your_username-0.0.1.tar.gz
+dist/
+  example_pkg_your_username-0.0.1-py3-none-any.whl
+  example_pkg_your_username-0.0.1.tar.gz
 ```
 
 Note 
@@ -127,7 +178,13 @@ python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 You will be prompted for the username and password you registered with Test PyPI. After the command completes, you should see output similar to this:
 
 ```text
-Uploading distributions to https://test.pypi.org/legacy/Enter your username: [your username]Enter your password:Uploading example_pkg_your_username-0.0.1-py3-none-any.whl100%|█████████████████████| 4.65k/4.65k [00:01<00:00, 2.88kB/s]Uploading example_pkg_your_username-0.0.1.tar.gz100%|█████████████████████| 4.25k/4.25k [00:01<00:00, 3.05kB/s]
+Uploading distributions to https://test.pypi.org/legacy/
+Enter your username: [your username]
+Enter your password:
+Uploading example_pkg_your_username-0.0.1-py3-none-any.whl
+100%|█████████████████████| 4.65k/4.65k [00:01<00:00, 2.88kB/s]
+Uploading example_pkg_your_username-0.0.1.tar.gz
+100%|█████████████████████| 4.25k/4.25k [00:01<00:00, 3.05kB/s]
 ```
 
 Once uploaded your package should be viewable on TestPyPI, for example, [https://test.pypi.org/project/example-pkg-your-username](https://test.pypi.org/project/example-pkg-your-username)
@@ -145,7 +202,10 @@ Make sure to specify your username in the package name!
 pip should install the package from Test PyPI and the output should look something like this:
 
 ```text
-Collecting example-pkg-your-username  Downloading https://test-files.pythonhosted.org/packages/.../example-pkg-your-username-0.0.1-py3-none-any.whlInstalling collected packages: example-pkg-your-usernameSuccessfully installed example-pkg-your-username-0.0.1
+Collecting example-pkg-your-username
+  Downloading https://test-files.pythonhosted.org/packages/.../example-pkg-your-username-0.0.1-py3-none-any.whl
+Installing collected packages: example-pkg-your-username
+Successfully installed example-pkg-your-username-0.0.1
 ```
 
 Note 
@@ -163,7 +223,9 @@ python
 And then import the module and print out the `name` property. This should be the same regardless of what you name you gave your [distribution package](https://packaging.python.org/glossary/#term-distribution-package) in `setup.py` \(in this case, `example-pkg-your-username`\) because your [import package](https://packaging.python.org/glossary/#term-import-package) is `example_pkg`.&gt;&gt;&gt;
 
 ```text
->>> import example_pkg>>> example_pkg.name'example_pkg'
+>>> import example_pkg
+>>> example_pkg.name
+'example_pkg'
 ```
 
 ### Next steps
