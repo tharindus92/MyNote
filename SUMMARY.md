@@ -83,4 +83,5 @@
 ## Remote Command
 
 * [psexec](remote-command/psexec.md)
+* [Creating Windows Service to Run an Executable Jar](creating-windows-service-to-run-an-executable-jar.md)
 
