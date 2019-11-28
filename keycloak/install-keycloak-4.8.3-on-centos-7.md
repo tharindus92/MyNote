@@ -106,12 +106,12 @@ If access is successful, the following screen will be displayed. Select
 **Administration Console** to go to the login screen.  
 
 
-![](../.gitbook/assets/image%20%286%29.png)
+![](../.gitbook/assets/image%20%2815%29.png)
 
  **add-user-keycloak.sh** user name you entered at the time of execution, enter a password to log in to the Keycloak.  
 
 
-![](../.gitbook/assets/image%20%281%29.png)
+![](../.gitbook/assets/image%20%288%29.png)
 
 ### Service registration
 

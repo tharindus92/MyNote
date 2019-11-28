@@ -151,7 +151,7 @@ Here are some of the basic concepts of running in domain mode.
 
 **server group         :-**  A server group is a collection of servers. They are managed and configured as one. You can assign a domain profile to a server group and every service in that group will use that domain profile as their configuration.
 
-![Domain Clustered Mode](../.gitbook/assets/image%20%282%29.png)
+![Domain Clustered Mode](../.gitbook/assets/image%20%289%29.png)
 
 #### **3.3.1. Domain Configuration**
 
@@ -1234,7 +1234,7 @@ _Note: to connect to a remote server, you pass the `--connect` option as well. U
 
 After launching GUI mode, you will probably want to scroll down to find the node, `subsystem=keycloak-server`. If you right-click on the node and click `Explore subsystem=keycloak-server`, you will get a new tab that shows only the keycloak-server subsystem.
 
-![](../.gitbook/assets/image.png)
+![](../.gitbook/assets/image%20%285%29.png)
 
 ### 4.5. CLI Scripting
 
