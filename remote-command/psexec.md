@@ -8,6 +8,9 @@ This can be done by using `PsExec` which can be downloaded [here](https://docs.m
 
 ```text
 psexec \\computer_name -u username -p password ipconfig
+
+PsExec.exe \\10.101.4.35 -u Zone -p zone@123 -s -c "C:\a.bat"
+
 ```
 
 If this isn't working try doing this :-
@@ -48,4 +51,15 @@ C:\Windows\system32&gt;"HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Para
 C:\Windows\system32&gt;reg add "HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Parameters" /v Application /d "java -jar C:\Users\tharindus\Desktop\rudi-eh-app\rudi-eh-app-0.0.1-SNAPSHOT.jar" The operation completed successfully.
 
 C:\Windows\system32&gt;sc start rudi-eth-app
+
+
+
+sc create "rudi-eth-app" binpath="C:\Program Files \(x86\)\Windows Resource Kits\Tools\srvany.exe" start=auto reg add "HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Parameters" /v Application /d "java -jar C:\rudi-eh-app\rudi-eh-app-0.0.1-SNAPSHOT.jar" sc start rudi-eth-app
+
+```text
+sc create "rudi-eth-app" binpath="C:\Program Files (x86)\Windows Resource Kits\Tools\srvany.exe" start=auto 
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Parameters" /v Application /d "java -jar C:\rudi-eh-app\rudi-eh-app-0.0.1-SNAPSHOT.jar"
+sc start rudi-eth-app
+
+```
 
