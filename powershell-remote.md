@@ -6,7 +6,7 @@ Enter-PSSession -ComputerName 10.101.4.35 -Credential Zone
 
 ### Save powershell password
 
-read-host -assecurestring \| convertfrom-securestring \| out-file C:\cred.txt
+read-host -assecurestring \| convertfrom-securestring \| out-file C:\Jenkins.txt
 
 $password = get-content C:\cred.txt \| convertto-securestring
 
@@ -20,5 +20,11 @@ Enter-PSSession -ComputerName 10.101.4.35 -Credential $credentials
 Invoke-Command -ComputerName COMPUTER -ScriptBlock { COMMAND } -credential USERNAME
 ```
 
+### Copy File
 
+```text
+$cs = New-PSSession -ComputerName 10.101.15.105 -Credential $credentials
+
+Copy-Item -Path .\rudi-eh-app.tar -Destination C:\Users\tharindus\Desktop\rudi-eh-app.tar -ToSession $cs
+```
 

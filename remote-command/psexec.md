@@ -57,8 +57,8 @@ C:\Windows\system32&gt;sc start rudi-eth-app
 sc create "rudi-eth-app" binpath="C:\Program Files \(x86\)\Windows Resource Kits\Tools\srvany.exe" start=auto reg add "HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Parameters" /v Application /d "java -jar C:\rudi-eh-app\rudi-eh-app-0.0.1-SNAPSHOT.jar" sc start rudi-eth-app
 
 ```text
-sc create "rudi-eth-app" binpath="C:\Program Files (x86)\Windows Resource Kits\Tools\srvany.exe" start=auto 
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Parameters" /v Application /d "java -jar C:\rudi-eh-app\rudi-eh-app-0.0.1-SNAPSHOT.jar"
+ "C:\Program Files (x86)\Windows Resource Kits\Tools\srvany.exe" start=auto 
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\rudi-eth-app\Parameters" /v Application /d "java -jar C:\Rudi_EH_Application\rudi-eh-app-0.0.1-SNAPSHOT.jar"
 sc start rudi-eth-app
 
 ```
