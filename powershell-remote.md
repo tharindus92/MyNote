@@ -28,3 +28,10 @@ $cs = New-PSSession -ComputerName 10.101.15.105 -Credential $credentials
 Copy-Item -Path .\rudi-eh-app.tar -Destination C:\Users\tharindus\Desktop\rudi-eh-app.tar -ToSession $cs
 ```
 
+### Remote Execute Code
+
+```text
+Invoke-Command -ComputerName "10.101.4.35" -credential $credentials -ErrorAction Stop -ScriptBlock {Invoke-Expression -Command:"cmd.exe /c 'C:\Users\Zone\Desktop\deploy.bat'"}
+
+```
+
