@@ -88,3 +88,7 @@
 * [powershell remote](powershell-remote.md)
 * [Prompt From Closing After Running Commands \(Batch File Pause\)](prompt-from-closing-after-running-commands-batch-file-pause.md)
 
+## RPM Creation
+
+* [RPM Create](rpm-creation/rpm-create.md)
+
