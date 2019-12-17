@@ -93,4 +93,5 @@
 
 * [RPM Create](rpm-creation/rpm-create.md)
 * [How to Create RPM for Your Own Script in CentOS/RedHat](rpm-creation/how-to-create-rpm-for-your-own-script-in-centos-redhat.md)
+* [How to build rpm packages](how-to-build-rpm-packages.md)
 
