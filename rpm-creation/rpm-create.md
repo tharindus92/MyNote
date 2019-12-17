@@ -18,5 +18,6 @@ systemctl start ${PACKAGE_NAME}
 rpm -Uivh --replacefiles --replacepkgs merlin-agent-vml-1.0.0-0.x86_64.rpm
 
 
+rpm -e package_name [package_name…]
 ```
 
