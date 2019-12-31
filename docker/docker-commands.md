@@ -14,6 +14,7 @@ a. Login to nexus server with credentials
 
 ```text
 docker login -u username imagehub.cdc.gov:5989
+docker login -u tharindus nexus.zone24x7.lk
 ```
 
 b. create dockerfile with required configuration
