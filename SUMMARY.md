@@ -69,7 +69,8 @@
 
 ## CERT
 
-* [Create the PFX File](cert/create-the-pfx-file.md)
+* [Create the PFX File](cert/create-the-pfx-file/README.md)
+  * [How to create .pfx file from certificate and private key?](cert/create-the-pfx-file/how-to-create-.pfx-file-from-certificate-and-private-key.md)
 
 ## Groovy
 
