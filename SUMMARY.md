@@ -68,6 +68,7 @@
 * [Configure a Private Docker Registry on CentOS 7](docker/configure-a-private-docker-registry-on-centos-7.md)
 * [Installing Docker on CentOS 7 with yum](docker/installing-docker-on-centos-7-with-yum.md)
 * [Swarm](docker/swarm.md)
+* [Compose file version 3 reference](docker/compose-file-version-3-reference.md)
 
 ## CERT
 
