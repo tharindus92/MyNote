@@ -69,6 +69,7 @@
 * [Installing Docker on CentOS 7 with yum](docker/installing-docker-on-centos-7-with-yum.md)
 * [Swarm](docker/swarm.md)
 * [Compose file version 3 reference](docker/compose-file-version-3-reference.md)
+* [SWARM COMMAND](docker/swarm-command.md)
 
 ## CERT
 
