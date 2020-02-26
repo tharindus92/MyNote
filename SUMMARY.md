@@ -100,3 +100,7 @@
 * [How to Create RPM for Your Own Script in CentOS/RedHat](rpm-creation/how-to-create-rpm-for-your-own-script-in-centos-redhat.md)
 * [How to build rpm packages](how-to-build-rpm-packages.md)
 
+## kafka
+
+* [How to Install Apache Kafka on CentOS 7](kafka/how-to-install-apache-kafka-on-centos-7.md)
+
