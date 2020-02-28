@@ -73,6 +73,7 @@
 
 ## CERT
 
+* [Adding trusted root certificates to the server](cert/adding-trusted-root-certificates-to-the-server.md)
 * [Create the PFX File](cert/create-the-pfx-file/README.md)
   * [How to create .pfx file from certificate and private key?](cert/create-the-pfx-file/how-to-create-.pfx-file-from-certificate-and-private-key.md)
 
