@@ -107,5 +107,7 @@
 
 ## Apache Airflow
 
+* [Making Apache Airflow Highly Available](apache-airflow/making-apache-airflow-highly-available.md)
 * [Installing airflow using helm](apache-airflow/installing-airflow-using-helm.md)
+* [Airflow High-Availability](apache-airflow/airflow-high-availability.md)
 
