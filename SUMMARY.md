@@ -1,7 +1,6 @@
 # Table of contents
 
 * [Initial page](README.md)
-* [Untitled](untitled.md)
 
 ## OpenVAS
 
@@ -110,4 +109,9 @@
 * [Making Apache Airflow Highly Available](apache-airflow/making-apache-airflow-highly-available.md)
 * [Installing airflow using helm](apache-airflow/installing-airflow-using-helm.md)
 * [Airflow High-Availability](apache-airflow/airflow-high-availability.md)
+
+## Spark
+
+* [Set up Apache Spark on a Multi-Node Cluster](spark/set-up-apache-spark-on-a-multi-node-cluster.md)
+* [Untitled](spark/untitled.md)
 
