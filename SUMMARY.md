@@ -116,3 +116,7 @@
 * [Helped guild](spark/untitled.md)
 * [service files](spark/service-files.md)
 
+## Postgres
+
+* [installation](postgres/installation.md)
+
