@@ -94,6 +94,10 @@
 * [powershell remote](powershell-remote.md)
 * [Prompt From Closing After Running Commands \(Batch File Pause\)](prompt-from-closing-after-running-commands-batch-file-pause.md)
 
+## Windows
+
+* [How to Remove Services in Windows 10](windows/how-to-remove-services-in-windows-10.md)
+
 ## RPM Creation
 
 * [RPM Create](rpm-creation/rpm-create.md)
