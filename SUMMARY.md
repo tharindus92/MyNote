@@ -90,6 +90,9 @@
 ## Remote Command
 
 * [psexec](remote-command/psexec.md)
+
+---
+
 * [Creating Windows Service to Run an Executable Jar](creating-windows-service-to-run-an-executable-jar.md)
 * [powershell remote](powershell-remote.md)
 * [Prompt From Closing After Running Commands \(Batch File Pause\)](prompt-from-closing-after-running-commands-batch-file-pause.md)
@@ -102,6 +105,9 @@
 
 * [RPM Create](rpm-creation/rpm-create.md)
 * [How to Create RPM for Your Own Script in CentOS/RedHat](rpm-creation/how-to-create-rpm-for-your-own-script-in-centos-redhat.md)
+
+---
+
 * [How to build rpm packages](how-to-build-rpm-packages.md)
 
 ## kafka

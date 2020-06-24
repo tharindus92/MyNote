@@ -117,7 +117,7 @@ mkdir ~/Downloads
 Use `curl` to download the Kafka binaries:
 
 ```text
-curl "https://www.apache.org/dist/kafka/2.1.1/kafka_2.11-2.1.1.tgz" -o ~/Downloads/kafka.tgz
+curl "https://downloads.apache.org/kafka/2.4.0/kafka_2.11-2.4.0.tgz" -o ~/Downloads/kafka.tgz
 ```
 
 Create a directory called `kafka` and change to this directory. This will be the base directory of the Kafka installation:
