@@ -130,3 +130,7 @@
 
 * [installation](postgres/installation.md)
 
+## TYAGA
+
+* [How To Install Jenkins on Ubuntu 18.04](tyaga/how-to-install-jenkins-on-ubuntu-18.04.md)
+
