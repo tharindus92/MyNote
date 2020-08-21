@@ -14,3 +14,11 @@ openssl req -new -key "site.key" -out "site.csr" -sha256 \
           -subj '/C=LK/ST=Western/L=Colombo/O=Zone24x7/CN=localhost'
 ```
 
+{% embed url="https://docs.docker.com/engine/swarm/secrets/" %}
+
+
+
+```text
+--secret src=homepage,target="\inetpub\wwwroot\index.html"
+```
+
