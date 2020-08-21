@@ -19,3 +19,32 @@ docker service create \
 
 ```
 
+```text
+docker swarm leave --force
+docker swarm init --default-addr-pool 10.20.0.0/16
+docker network inspect ingress
+
+```
+
+[  
+](
+https://sandbox.faceauthme.com/web-app/v1/request-info
+)[https://sandbox.faceauthme.com](https://sandbox.faceauthme.com)
+
+ [https://sandbox-integration.faceauthme.com](https://sandbox-integration.faceauthme.com) 
+
+[https://sandbox-integration.faceauthme.com/app/info](https://sandbox-integration.faceauthme.com/app/info)
+
+ [http://10.101.15.55:8081/app/info](http://10.101.15.55:8081/app/info) 
+
+[http://10.101.15.55:8082/app/info](http://10.101.15.55:8082/app/info)
+
+ [https://sandbox.faceauthme.com/](https://sandbox.faceauthme.com/)
+
+ [https://sandbox.faceauthme.com/web-app](https://sandbox.faceauthme.com/web-app)
+
+ [https://sandbox.faceauthme.com/web-app/v1/request-info](https://sandbox.faceauthme.com/web-app/v1/request-info)[  
+](
+https://sandbox.faceauthme.com/web-app/v1/request-info
+)
+
