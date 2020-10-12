@@ -22,6 +22,7 @@ docker service create \
 ```text
 docker swarm leave --force
 docker swarm init --default-addr-pool 10.20.0.0/16
+docker swarm init --default-addr-pool 172.81.0.0/16 --default-addr-pool-mask-length 24
 docker network inspect ingress
 
 ```
