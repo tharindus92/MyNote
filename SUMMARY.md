@@ -142,4 +142,5 @@
 * [Deploy MariaDB 10.4.8 in Docker Swarm Cluster](faume/deploy-mariadb-10.4.8-in-docker-swarm-cluster.md)
 * [Introduction to Docker Secrets](faume/introduction-to-docker-secrets.md)
 * [Key Generate](faume/key-generate.md)
+* [Command](faume/command.md)
 
