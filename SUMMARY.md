@@ -154,4 +154,5 @@
 * [Untitled](zap/untitled.md)
 * [ZAP Docker User Guide](zap/zap-docker-user-guide.md)
 * [ZAP CLI Installation](zap/zap-cli-installation.md)
+* [Scripting Authenticated](zap/scripting-authenticated.md)
 
