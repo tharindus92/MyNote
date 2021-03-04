@@ -155,4 +155,5 @@
 * [ZAP Docker User Guide](zap/zap-docker-user-guide.md)
 * [ZAP CLI Installation](zap/zap-cli-installation.md)
 * [Scripting Authenticated](zap/scripting-authenticated.md)
+* [Stack file](zap/stack-file.md)
 
