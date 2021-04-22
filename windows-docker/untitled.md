@@ -1,5 +1,7 @@
 # Install
 
+{% embed url="https://4sysops.com/archives/install-docker-on-windows-server-2019/" %}
+
 
 
 ## Container host deployment: Windows Server <a id="container-host-deployment-windows-server"></a>
