@@ -87,6 +87,7 @@
 * [Setup Keycloak with SSL and MySQL backend](keycloak/setup-keycloak-with-ssl-and-mysql-backend.md)
 * [Untitled](keycloak/untitled-1.md)
 * [Untitled](keycloak/untitled.md)
+* [Keycloak cluster](keycloak/keycloak-cluster.md)
 
 ## Remote Command
 
