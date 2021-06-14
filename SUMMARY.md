@@ -163,3 +163,7 @@
 * [Install](windows-docker/untitled.md)
 * [Matrix docker](windows-docker/matrix-docker.md)
 
+## Oracle
+
+* [Installing Oracle Database XE Using RPM Packages](oracle/installing-oracle-database-xe-using-rpm-packages.md)
+
