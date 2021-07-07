@@ -85,7 +85,7 @@ mkdir -p /opt/ntbes/email/
 
 copy "**consolidate-interactive-statement.html**" to above location.
 
-2.5.3 Write prod.yml
+#### 2.5.3 Write prod.yml
 
 ```bash
 cat > prod.yml <<EOF
@@ -219,4 +219,14 @@ networks:
   ntbes:
 EOF
 ```
+
+#### 
+
+#### 2.5.3 Docker stack deploy
+
+```bash
+ docker stack deploy --with-registry-auth --compose-file dev.yml ntbes
+```
+
+## 3. Redeploy Application
 
