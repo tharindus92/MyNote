@@ -167,3 +167,7 @@
 
 * [Installing Oracle Database XE Using RPM Packages](oracle/installing-oracle-database-xe-using-rpm-packages.md)
 
+## NTB - E-Statement Generation
+
+* [NTB - E-Statement Generation Deployment Guild](ntb-e-statement-generation/ntb-e-statement-generation-deployment-guild.md)
+
