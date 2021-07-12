@@ -68,7 +68,7 @@ from above command you can join worker to manager.
 
 ### 2.5 Docker stack deploy
 
-#### 2.5.1 Collect applications tar files  from zone24x7 & load image
+#### 2.5.1 Collect applications artifact \(TAR files\)  from zone24x7 team and copy it into the server. Then execute the following commands in order to load docker images.
 
 ```bash
 sudo docker load -i ntbes_admin-portal-ui.tar 
