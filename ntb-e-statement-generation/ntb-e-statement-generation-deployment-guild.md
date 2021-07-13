@@ -14,7 +14,7 @@ There is 4 service we deployed to server
 2.  Ntbes Data Processing Worker Service
 3. Ntbes Email Sending Worker Service
 4. Ntbes Admin Portal UI Service
-
+5. 
 ### 2.1 Minimum Server Requirement 
 
 ### 2.2 Server Update
