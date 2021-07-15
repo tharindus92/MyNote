@@ -84,3 +84,5 @@ Get code from nexus and push it into google bucket.
 
 ![](../.gitbook/assets/image%20%2820%29.png)
 
+![](../.gitbook/assets/capture.png)
+
