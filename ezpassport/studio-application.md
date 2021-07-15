@@ -82,7 +82,7 @@ Get code from nexus and push it into google bucket.
 
 {% embed url="https://nexus.zone24x7.lk/\#browse/browse:releases:com%2Fzone%2Fppema%2Fstudio-application" %}
 
-![](../.gitbook/assets/image%20%2820%29.png)
-
 ![](../.gitbook/assets/capture.png)
+
+
 
