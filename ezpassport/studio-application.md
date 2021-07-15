@@ -84,5 +84,21 @@ Get code from nexus and push it into google bucket.
 
 ![](../.gitbook/assets/capture.png)
 
+## 4. python37 package **push into google bucket.**
+
+Zip python37 folder and push into google bucket.
+
+![](../.gitbook/assets/image%20%2822%29.png)
+
+{% embed url="https://storage.googleapis.com/ezp-artifacts/python37-1.0.zip" %}
+
+## 5. ML model push into **google bucket.**
+
+you can collect models from git "  Insert Link".
+
+Then create ezp/model directory and put models to that folder put models to that. Finally you can zip ezp folder and push into google bucket. 
+
+## 6. Python Lib push into **google bucket.**
+
 
 
