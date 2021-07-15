@@ -24,9 +24,63 @@
 
 ### **1.6 Select Fine-grained as the access control type and click Continue.**
 
-![Image](https://lh6.googleusercontent.com/QsZJs1jHWK6_gu7dLzs8iVsv34zZqrumPFkx1QqRjqs8s2iVFhVIzVTHlpnX9_nV_sp2LnGC5QkSs5cGRkqvnxifR08zUp-6BBzBU-L0Zy-VXoG1HElBq0373Xlt-Gprgkmj508)
+![](../.gitbook/assets/image%20%2821%29.png)
 
-### **1.7 Select the needed encryption type and click Continue.**
+### **1.7 Select the needed encryption type and click CREATE**
 
-\*\*\*\*
+![Image](https://lh5.googleusercontent.com/fPsyeUQML4VZyVkoyC_mSTYuJlBpjs4fQuAdH5Qa0Ok6q6X9lkH74hcLVAAyfDwNQAZ2R0y_cIitOhLP2LS1uqJr4feQEDOGX1o1oVXNKtEBr4_NQYhgXImO1xlRZLC2Trhieyw)
+
+### **1.8  If the bucket creation is successful, you should get the below.**
+
+![Image](https://lh5.googleusercontent.com/xT21Sp2RWOzfVQuchYnuUdn_E0ALctVLMFPIqe1Gb8HOO-RddD4eija5Rl6EWSJuFlLIRfiQS43N8UfcWp_CH3YnSMdy5IMGbhq3dum72uRumbeXBzec_9dG93ejCR115BU8IMY)
+
+### **1.9  In order to provide bucket access, navigate to Permissions.**
+
+![Image](https://lh4.googleusercontent.com/9MfCmqgaHoclWrWVyTO-r42bKrtz8yxthzgENS8IeKMCcJMNmMl9gqIl8PDQcr-RJss_28oGnYVIr3Y88du3X9zVeXfv7iA_ebU27oflqWnWd5Pp4p72OivY6KrEO-D9BYyQCF0)
+
+### **1.10 Provide Storage Object Admin role to public.**
+
+![](../.gitbook/assets/image%20%2819%29.png)
+
+## **2. Updates.json push in to google bucket.**
+
+```javascript
+{
+    "Version": "0.1.14-20210629.090457-1",
+    "RunCommand": "EZPassport.Studio.Main.exe",
+    "AppParams": "",
+    "WSB": "netcoreapp3.0",
+    "Files": [
+        {
+            "Name": "ezp-1.0.zip",
+            "URL": "https://storage.googleapis.com/ezp-artifacts/ezp-1.0.zip"
+        },
+        {
+            "Name": "lib-1.0.zip",
+            "URL": "https://storage.googleapis.com/ezp-artifacts/lib-1.0.zip"
+        },
+        {
+            "Name": "python37-1.0.zip",
+            "URL": "https://storage.googleapis.com/ezp-artifacts/python37-1.0.zip"
+        },
+        {
+            "Name": "studio-application-0.1.14-20210629.090457-1.zip",
+            "URL": "https://storage.googleapis.com/ezp-artifacts/studio-application-0.1.14-20210629.090457-1.zip"
+        }
+    ],
+    "Envs": {
+        "ML_PROC_EXEC_PATH": "python37/python.exe",
+        "ML_PROC_ARGS": "-m ezpassport.server",
+        "ML_PROC_WD": "../"
+    }
+}
+```
+
+## **3. Studio Application push into google bucket**
+
+Get code from nexus and push it into google bucket.
+
+{% embed url="https://nexus.zone24x7.lk/\#browse/browse:releases:com%2Fzone%2Fppema%2Fstudio-application" %}
+
+![](../.gitbook/assets/image%20%2820%29.png)
 
