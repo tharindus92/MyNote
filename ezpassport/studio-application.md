@@ -100,5 +100,29 @@ Then create ezp/model directory and put models to that folder put models to that
 
 ## 6. Python Lib push into **google bucket.**
 
+you can collect code from git "  Insert Link"
 
+* Create folder "C:\Users\Apps\"
+* Go inside that folder and open gitbash terminal and run below commands
+* mkdir -p C:\Users\Apps\
+
+```javascript
+git clone <git link>
+
+# Run Build Script
+./pyarmour.sh
+```
+
+or double click  pyarmour.sh file
+
+* Then go inside "C:\Users\Apps\ippylib\_pyarmor\library"
+* Run following command
+
+```javascript
+pip install .
+```
+
+* Then copy C:\Users\Apps\ippylib\_pyarmor\library\ippylib to C:\Users\&lt;users&gt;\AppData\Roaming\Python\Python37\site-packages
+* Copy site-packages to lib folder \(You can create lib folder anywhere\)  
+* Then zip it and must send to the google bucket.
 
